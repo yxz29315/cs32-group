@@ -52,7 +52,6 @@ void Lexer::readNextToken() {
 
     if (input.eof()) {
         // Reached the end of input
-        tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column + 1));
         return;
     }
 
@@ -87,6 +86,11 @@ void Lexer::readNextToken() {
     }
 
     ++tokens.back().column;
+
+    // Check for END token after pushing the token
+    if (input.eof()) {
+        tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column));
+    }
 }
 
 void Lexer::skipWhitespace() {
