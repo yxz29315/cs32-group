@@ -30,7 +30,7 @@ int main() {
 
 Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
     // Constructor implementation
-    tokens.push_back(Token(TokenType::END, 1, 0));
+    tokens.push_back(Token(TokenType::END, 1, 1));
 }
 
 
