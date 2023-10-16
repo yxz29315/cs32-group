@@ -33,7 +33,6 @@ Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
     tokens.push_back(Token(TokenType::END, 1, 1));
 }
 
-
 void Lexer::readNextToken() {
     char currentChar;
     input.get(currentChar);
@@ -75,14 +74,15 @@ void Lexer::readNextToken() {
             if (std::isdigit(currentChar) || currentChar == '.') {
                 number += currentChar;
             } else {
-                input.unget();
+                input.unget(); // Put the non-numeric character back
                 break;
             }
         }
         tokens.push_back(Token(std::stod(number), tokens.back().line, tokens.back().column));
     } else {
-        // Invalid character, report syntax error
+        // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
+        ++tokens.back().column;
     }
 
     ++tokens.back().column;
@@ -92,6 +92,7 @@ void Lexer::readNextToken() {
         tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column));
     }
 }
+
 
 void Lexer::skipWhitespace() {
     // Skip whitespace characters
