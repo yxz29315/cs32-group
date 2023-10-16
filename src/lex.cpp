@@ -35,18 +35,17 @@ Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
 
 void Lexer::readNextToken() {
     char currentChar;
-    input.get(currentChar);
-
+    
     // Skip whitespace characters
-    while (std::isspace(currentChar)) {
-        if (currentChar == '\n') {
+    while (std::isspace(input.peek())) {
+        if (input.peek() == '\n') {
             // Update line and reset column when a newline is encountered
             ++tokens.back().line;
             tokens.back().column = 1;
         } else {
             ++tokens.back().column;
         }
-        input.get(currentChar);
+        input.ignore();
     }
 
     if (input.eof()) {
@@ -54,37 +53,31 @@ void Lexer::readNextToken() {
         return;
     }
 
+    currentChar = input.peek();
+
     if (currentChar == '(') {
         tokens.push_back(Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
+        input.ignore(); // Consume the character
     } else if (currentChar == ')') {
         tokens.push_back(Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
-    } else if (currentChar == '+') {
-        tokens.push_back(Token(TokenType::ADD, tokens.back().line, tokens.back().column));
-    } else if (currentChar == '-') {
-        tokens.push_back(Token(TokenType::SUBTRACT, tokens.back().line, tokens.back().column));
-    } else if (currentChar == '*') {
-        tokens.push_back(Token(TokenType::MULTIPLY, tokens.back().line, tokens.back().column));
-    } else if (currentChar == '/') {
-        tokens.push_back(Token(TokenType::DIVIDE, tokens.back().line, tokens.back().column));
+        input.ignore(); // Consume the character
+    } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
+        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, std::string(1, currentChar)));
+        input.ignore(); // Consume the character
     } else if (std::isdigit(currentChar) || currentChar == '.') {
-        // Read a simple floating point number
+        // Read a floating-point number
         std::string number;
-        number += currentChar;
-        while (!input.eof() && input.get(currentChar)) {
-            if (std::isdigit(currentChar) || currentChar == '.') {
-                number += currentChar;
-            } else {
-                input.unget(); // Put the non-numeric character back
-                break;
-            }
+        while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
+            number += input.get();
         }
-        tokens.push_back(Token(std::stod(number), tokens.back().line, tokens.back().column));
+        tokens.push_back(Token(TokenType::NUMBER, tokens.back().line, tokens.back().column, number));
     } else {
         // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
         ++tokens.back().column;
+        input.ignore(); // Consume the character
     }
-
+    
     ++tokens.back().column;
 
     // Check for END token after pushing the token
