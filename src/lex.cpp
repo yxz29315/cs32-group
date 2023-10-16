@@ -71,7 +71,7 @@ void Lexer::readNextToken() {
         // Read a simple floating point number
         std::string number;
         number += currentChar;
-        while (input.get(currentChar)) {
+        while (!input.eof() && input.get(currentChar)) {
             if (std::isdigit(currentChar) || currentChar == '.') {
                 number += currentChar;
             } else {
