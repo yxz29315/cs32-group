@@ -2,7 +2,7 @@
 #include <vector>
 #include <stack>
 
-#include "lexer.h"
+#include "lex.h"
 #include "token.h"
 
 // Define an abstract syntax tree (AST) node

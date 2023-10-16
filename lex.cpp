@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "lexer.h"
+#include "lex.h"
 #include "token.h"
 
 Lexer::Lexer(const std::string& input) : input_stream(input), current_position(0), current_line(1), current_column(1) {
