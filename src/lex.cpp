@@ -133,7 +133,7 @@ bool Lexer::hasSyntaxError() const {
 void Lexer::printTokensAndPositions() const {
     for (const Token& token : tokens) {
         // Print line and column numbers followed by the token
-        std::cout << token.line << " " << token.column << " " << token << std::endl;
+        std::cout << "\t" << token.line << "\t" << token.column << "\t" << token << std::endl;
     }
 }
 
