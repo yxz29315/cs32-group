@@ -28,10 +28,7 @@ struct Token {
     // Constructor for NUMBER token
     Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c) {}
 };
-
-// Have the << operator for Token to print it
 std::ostream& operator<<(std::ostream& os, const Token& token) {
-    os << "Line " << token.line << "  Col " << token.column << "  ";
     switch (token.type) {
         case TokenType::LEFT_PAREN:
             os << "(";
@@ -62,6 +59,7 @@ std::ostream& operator<<(std::ostream& os, const Token& token) {
     }
     return os;
 }
+
 
 #endif // TOKEN_H
 
