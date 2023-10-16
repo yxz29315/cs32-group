@@ -7,10 +7,7 @@
 enum class TokenType {
     LEFT_PAREN,
     RIGHT_PAREN,
-    ADD,
-    SUBTRACT,
-    MULTIPLY,
-    DIVIDE,
+    OPERATOR,
     NUMBER,
     END
 };
@@ -36,16 +33,16 @@ std::ostream& operator<<(std::ostream& os, const Token& token) {
         case TokenType::RIGHT_PAREN:
             os << ")";
             break;
-        case TokenType::ADD:
+        case TokenType::OPERATOR:
             os << "+";
             break;
-        case TokenType::SUBTRACT:
+        case TokenType::OPERATOR:
             os << "-";
             break;
-        case TokenType::MULTIPLY:
+        case TokenType::OPERATOR:
             os << "*";
             break;
-        case TokenType::DIVIDE:
+	case TokenType::OPERATOR:
             os << "/";
             break;
         case TokenType::NUMBER:
