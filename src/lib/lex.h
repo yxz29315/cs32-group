@@ -24,4 +24,3 @@ private:
 
 #endif // LEX_H
 
-#endif
