@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "lex.h"
-#include "token.h"
+#include "lib/lex.h"
+#include "lib/token.h"
 
 Lexer::Lexer(const std::string& input) : input_stream(input), current_position(0), current_line(1), current_column(1) {
 }
