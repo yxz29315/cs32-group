@@ -2,6 +2,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <sstream> // Include this header for std::istringstream
 
 #include "lib/lex.h"
 
@@ -26,6 +27,7 @@ int main() {
 
     return 0; // Exit with a success code
 }
+
 Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
     // Constructor implementation
 }
