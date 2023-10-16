@@ -33,6 +33,8 @@ Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
     tokens.push_back(Token(TokenType::END, 1, 0));
 }
 
+}
+
 void Lexer::readNextToken() {
     char currentChar;
     input.get(currentChar);
@@ -133,7 +135,8 @@ bool Lexer::hasSyntaxError() const {
 void Lexer::printTokensAndPositions() const {
     std::cout << "Line  Col  Token" << std::endl;
     for (const Token& token : tokens) {
-        std::cout << "   " << token.line << "    " << token.column << "  " << token << std::endl;
+        // Use a format that matches the expected output format
+        std::cout << " " << token.line << "    " << token.column << "  " << token << std::endl;
     }
 }
 
