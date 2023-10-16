@@ -2,12 +2,11 @@
 #include <vector>
 #include <stack>
 
-#include "parser.h"
 #include "lexer.h"
 #include "token.h"
 
 // Define an abstract syntax tree (AST) node
-class AstNode::AstNode {
+class AstNode {
 public:
     TokenType type;
     std::string text;
@@ -18,16 +17,16 @@ public:
 };
 
 // Function to parse an S-expression
-AstNode* AstNode::parseSExpression(Lexer& lexer);
+AstNode* parseSExpression(Lexer& lexer);
 
 // Function to parse an expression
-AstNode* AstNode::parseExpression(Lexer& lexer);
+AstNode* parseExpression(Lexer& lexer);
 
 // Function to evaluate an AST node
-double AstNode::evaluate(AstNode* node);
+double evaluate(AstNode* node);
 
 // Function to print an AST in infix form
-void AstNode::printInfix(AstNode* node, bool printParentheses = false);
+void printInfix(AstNode* node, bool printParentheses = false);
 
 int main() {
     std::string input;
@@ -81,7 +80,7 @@ int main() {
 }
 
 // Function to parse an S-expression
-AstNode* AstNode::parseSExpression(Parser& parser) {
+AstNode* parseSExpression(Parser& parser) {
     // A top-level S-expression should contain exactly one expression
     AstNode* expr = parseExpression(parser);
 
@@ -94,7 +93,7 @@ AstNode* AstNode::parseSExpression(Parser& parser) {
 }
 
 // Function to parse an expression
-AstNode* AstNode::parseExpression(Parser& parser) {
+AstNode* parseExpression(Parser& parser) {
     Token* currentToken = parser.tokens[parser.current_token_index];
 
     if (currentToken->type == TokenType::LPAREN) {
@@ -140,7 +139,7 @@ AstNode* AstNode::parseExpression(Parser& parser) {
 }
 
 // Function to evaluate an AST node
-double AstNode::evaluate(AstNode* node) {
+double evaluate(AstNode* node) {
     if (node->type == TokenType::NUMBER) {
         return std::stod(node->text);
     } else {
@@ -165,7 +164,7 @@ double AstNode::evaluate(AstNode* node) {
 }
 
 // Function to print an AST in infix form
-void AstNode::printInfix(AstNode* node, bool printParentheses) {
+void printInfix(AstNode* node, bool printParentheses) {
     if (node->type == TokenType::NUMBER) {
         std::cout << node->text;
     } else {
