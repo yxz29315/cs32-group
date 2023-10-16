@@ -33,7 +33,6 @@ Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
     tokens.push_back(Token(TokenType::END, 1, 0));
 }
 
-}
 
 void Lexer::readNextToken() {
     char currentChar;
@@ -138,4 +137,3 @@ void Lexer::printTokensAndPositions() const {
         std::cout << " " << token.line << "    " << token.column << "  " << token << std::endl;
     }
 }
-} 
