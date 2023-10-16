@@ -3,19 +3,25 @@
 
 #include "token.h"
 #include <string>
-using namespace std;
-
+#include <vector>
+#include <istream>
 class Lexer {
 public:
-    Lexer(const string& input);
-    Token* get_next_token();
-    ~Lexer();
+    Lexer(std::istream& input);
+    std::vector<Token> tokenize();
+    bool hasSyntaxError() const;
+    void printTokensAndPositions() const;
 
 private:
-    const string input_stream;
-    int current_position;
-    int current_line;
-    int current_column;
+    std::istream& input;
+    std::vector<Token> tokens;
+    bool syntaxError;
+
+    void readNextToken();
+    void skipWhitespace();
+    void reportSyntaxError(const std::string& message);
 };
+
+#endif // LEX_H
 
 #endif
