@@ -19,7 +19,7 @@ struct Token {
     double line;   // Use double for line
     double column; // Use double for column
     char opS;
-     // Constructor for other token types
+    // Constructor for other token types
     Token(TokenType t, double l, double c, char o = ' ') : type(t), number(0.0), line(l), column(c), opS(o) {}
 
     // Constructor for NUMBER token
