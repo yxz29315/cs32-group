@@ -24,6 +24,9 @@ struct Token {
 
     // Constructor for NUMBER token
     Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c) {}
+    // Add a constructor for END tokens
+    Token(TokenType t, double l, double c) : type(t), number(0.0), line(l), column(c), opS(' ') {}
+
 };
 std::ostream& operator<<(std::ostream& os, const Token& token) {
     switch (token.type) {
