@@ -18,8 +18,6 @@ public:
     Parser(vector<Token*>& tokens);
     AstNode* parse();
     ~Parser();
-
-private:
     vector<Token*> tokens;
     size_t current_token_index;
 };

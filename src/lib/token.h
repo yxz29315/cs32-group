@@ -1,6 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+using namespace std;
 #include <iostream>
 
 // Enum to represent different token types
@@ -15,15 +16,15 @@ enum class TokenType {
 // Structure to represent a token
 struct Token {
     TokenType type;
-    double number; // Store numbers as doubles
+    string text; // Store numbers as doubles
     double line;   // Use double for line
     double column; // Use double for column
-    char opS;
+
     // Constructor for other token types
-    Token(TokenType t, double l, double c, char o = ' ') : type(t), number(0.0), line(l), column(c), opS(o) {}
+    Token(TokenType t, double l, double c, string o = "") : type(t), text(o), line(l), column(c) {}
 
     // Constructor for NUMBER token
-    Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c), opS(' ') {}
+    Token(double num, double l, double c) : type(TokenType::NUMBER), text(to_string(num)), line(l), column(c) {}
 
 };
 std::ostream& operator<<(std::ostream& os, const Token& token) {
@@ -35,10 +36,10 @@ std::ostream& operator<<(std::ostream& os, const Token& token) {
             os << ")";
             break;
         case TokenType::OPERATOR:
-            os << token.opS;
+            os << token.text;
             break;
         case TokenType::NUMBER:
-            os << token.number; // Print the doubles
+            os << token.text; // Print the doubles
             break;
         case TokenType::END:
             os << "END";
