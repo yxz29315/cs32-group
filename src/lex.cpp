@@ -35,7 +35,7 @@ Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
 
 void Lexer::readNextToken() {
     char currentChar;
-    
+
     // Skip whitespace characters
     while (std::isspace(input.peek())) {
         if (input.peek() == '\n') {
@@ -70,14 +70,15 @@ void Lexer::readNextToken() {
         while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
             number += input.get();
         }
-	tokens.push_back(Token(TokenType::NUMBER, tokens.back().line, tokens.back().column, number));
+        double num = std::stod(number); // Convert the string to a double
+        tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
     } else {
         // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
         ++tokens.back().column;
         input.ignore(); // Consume the character
     }
-    
+
     ++tokens.back().column;
 
     // Check for END token after pushing the token
