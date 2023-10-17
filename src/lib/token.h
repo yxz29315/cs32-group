@@ -18,9 +18,9 @@ struct Token {
     double number; // Store numbers as doubles
     double line;   // Use double for line
     double column; // Use double for column
-
+    char opS;
     // Constructor for other token types
-    Token(TokenType t, double l, double c) : type(t), number(0.0), line(l), column(c) {}
+    Token(TokenType t, double l, double c, char o) : type(t), number(0.0), line(l), column(c), opS(o) {}
 
     // Constructor for NUMBER token
     Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c) {}
@@ -34,16 +34,7 @@ std::ostream& operator<<(std::ostream& os, const Token& token) {
             os << ")";
             break;
         case TokenType::OPERATOR:
-            os << "+";
-            break;
-        case TokenType::OPERATOR:
-            os << "-";
-            break;
-        case TokenType::OPERATOR:
-            os << "*";
-            break;
-	case TokenType::OPERATOR:
-            os << "/";
+            os << token.opS;
             break;
         case TokenType::NUMBER:
             os << token.number; // Print the doubles

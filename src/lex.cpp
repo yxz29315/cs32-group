@@ -62,7 +62,7 @@ void Lexer::readNextToken() {
         tokens.push_back(Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
         input.ignore(); // Consume the character
     } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
-        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, std::string(1, currentChar)));
+        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, currentChar));
         input.ignore(); // Consume the character
     } else if (std::isdigit(currentChar) || currentChar == '.') {
         // Read a floating-point number
