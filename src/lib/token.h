@@ -23,7 +23,8 @@ struct Token {
     Token(TokenType t, double l, double c, char o = ' ') : type(t), number(0.0), line(l), column(c), opS(o) {}
 
     // Constructor for NUMBER token
-    Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c) {}
+    Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c), opS(' ') {}
+
 
     // Constructor for OPERATOR token
     Token(TokenType t, double l, double c, char o) : type(t), number(0.0), line(l), column(c), opS(o) {}
