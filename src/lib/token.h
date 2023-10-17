@@ -19,15 +19,14 @@ struct Token {
     double line;   // Use double for line
     double column; // Use double for column
     char opS;
+     // Constructor for other token types
+    Token(TokenType t, double l, double c, char o = ' ') : type(t), number(0.0), line(l), column(c), opS(o) {}
+
     // Constructor for NUMBER token
-    Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c), opS(' ') {}
+    Token(double num, double l, double c) : type(TokenType::NUMBER), number(num), line(l), column(c) {}
 
-    // Add a constructor for END tokens
-    Token(TokenType t, double l, double c) : type(t), number(0.0), line(l), column(c), opS(' ') {}
-
-    // Add a constructor for NUMBER token with a string
-    Token(TokenType t, double l, double c, const std::string& o) : type(t), number(std::stod(o)), line(l), column(c) {}
-
+    // Constructor for OPERATOR token
+    Token(TokenType t, double l, double c, char o) : type(t), number(0.0), line(l), column(c), opS(o) {}
 };
 std::ostream& operator<<(std::ostream& os, const Token& token) {
     switch (token.type) {
