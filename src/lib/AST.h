@@ -1,4 +1,4 @@
-#ifndef AST_H
+/*#ifndef AST_H
 #define AST_H
 #include "parse.h"
 #include "token.h"
@@ -31,3 +31,4 @@ double evaluate(AstNode* node);
 void printInfix(AstNode* node, bool printParentheses = false);
 
 #endif
+*/
