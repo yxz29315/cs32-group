@@ -70,8 +70,7 @@ void Lexer::readNextToken() {
         while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
             number += input.get();
         }
-	double num = std::stod(number);
-        tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
+	tokens.push_back(Token(TokenType::NUMBER, tokens.back().line, tokens.back().column, number));
     } else {
         // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
