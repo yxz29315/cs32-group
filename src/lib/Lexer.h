@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <istream>
+
 class Lexer {
 public:
     Lexer(std::istream& input);
