@@ -28,34 +28,30 @@ void Lexer::readNextToken() {
     }
 
     if (input.eof()) {
-        ++tokens.back().line;
-        tokens.back().column = 1;
+        // Reached the end of input
+        tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column));
         return;
     }
 
-    currentChar = input.peek();
+    currentChar = input.get(); // Consume the character
 
     if (currentChar == '(') {
-        tokens.insert(tokens.end() - 1, Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
-        input.ignore(); // Consume the character
+        tokens.push_back(Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
     } else if (currentChar == ')') {
-        tokens.insert(tokens.end() - 1, Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
-        input.ignore(); // Consume the character
+        tokens.push_back(Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
     } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
-        tokens.insert(tokens.end() - 1, Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, "" + currentChar));
-        input.ignore(); // Consume the character
+        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, std::string(1, currentChar)));
     } else if (std::isdigit(currentChar) || currentChar == '.') {
         // Read a floating-point number
-        std::string number;
+        std::string number(1, currentChar);
         while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
             number += input.get();
         }
         double num = std::stod(number); // Convert the string to a double
-        tokens.insert(tokens.end() - 1, Token(num, tokens.back().line, tokens.back().column));
+        tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
     } else {
         // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
-        input.ignore(); // Consume the character
     }
     ++tokens.back().column;
 }
