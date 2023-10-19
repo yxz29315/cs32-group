@@ -47,13 +47,18 @@ void Lexer::readNextToken() {
         while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
             number += input.get();
         }
-        double num = std::stod(number); // Convert the string to a double
-        tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
+
+        // Check if the number is valid (e.g., 12.34.56 is not valid)
+        if (std::count(number.begin(), number.end(), '.') <= 1) {
+            double num = std::stod(number); // Convert the string to a double
+            tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
+        } else {
+            reportSyntaxError();
+        }
     } else {
-        // Invalid character, report syntax error and consume it
-        reportSyntaxError("Invalid character: " + currentChar);
+        // Invalid character, report syntax error and exit with code 1
+        reportSyntaxError();
     }
-    ++tokens.back().column;
 }
 
 
@@ -89,11 +94,8 @@ std::vector<Token> Lexer::tokenize() {
     return tokens;
 }
 
-void Lexer::reportSyntaxError(const std::string& message) {
-    syntaxError = true;
-    std::cerr << "Syntax Error on line " << tokens.back().line
-              << " column " << tokens.back().column << ". " << message << std::endl;
-    exit(1);
+void Lexer::reportSyntaxError() {
+    std::exit(1);
 }
 
 bool Lexer::hasSyntaxError() const {
