@@ -97,15 +97,17 @@ void Lexer::reportSyntaxError(const std::string& message) {
     syntaxError = true;
     std::cerr << "Syntax Error on line " << tokens.back().line
               << " column " << tokens.back().column << ". " << message << std::endl;
+    exit(1);
 }
 
 bool Lexer::hasSyntaxError() const {
     return syntaxError;
 }
+
 void Lexer::printTokensAndPositions() const {
     for (const Token& token : tokens) {
         // Print line and column numbers followed by the token
-        std::cout << "    " << token.line << "    " << token.column << "  " << token << std::endl;
+        std::cout << "\t" << token.line << "\t" << token.column << "\t" << token << std::endl;
     }
 }
 
