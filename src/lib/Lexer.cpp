@@ -28,20 +28,21 @@ void Lexer::readNextToken() {
     }
 
     if (input.eof()) {
-        // Reached the end of input
+        ++tokens.back().line;
+        tokens.back().column = 1;
         return;
     }
 
     currentChar = input.peek();
 
     if (currentChar == '(') {
-        tokens.push_back(Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
+        tokens.insert(tokens.end() - 1, Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
         input.ignore(); // Consume the character
     } else if (currentChar == ')') {
-        tokens.push_back(Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
+        tokens.insert(tokens.end() - 1, Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
         input.ignore(); // Consume the character
     } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
-        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, "" + currentChar));
+        tokens.insert(tokens.end() - 1, Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, "" + currentChar));
         input.ignore(); // Consume the character
     } else if (std::isdigit(currentChar) || currentChar == '.') {
         // Read a floating-point number
@@ -50,20 +51,13 @@ void Lexer::readNextToken() {
             number += input.get();
         }
         double num = std::stod(number); // Convert the string to a double
-        tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
+        tokens.insert(tokens.end() - 1, Token(num, tokens.back().line, tokens.back().column));
     } else {
         // Invalid character, report syntax error and consume it
         reportSyntaxError("Invalid character: " + currentChar);
-        ++tokens.back().column;
         input.ignore(); // Consume the character
     }
-
     ++tokens.back().column;
-
-    // Check for END token after pushing the token
-    if (input.eof()) {
-        tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column));
-    }
 }
 
 
