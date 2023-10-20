@@ -14,7 +14,7 @@ int main() {
     // Create a lexer with the input
     std::istringstream inputStream(input);
     Lexer lexer(inputStream);
-
+    lexer.readTokens();
     // Print the tokens
     lexer.printTokens();
 
