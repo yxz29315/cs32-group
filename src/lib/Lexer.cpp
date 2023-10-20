@@ -18,6 +18,7 @@ void Lexer::readTokens() {
 
     while (!input.eof()) {
         currentChar = input.get();
+        std::cout << currentChar << std::endl;
 
         if (input.eof()) {
             token.type = Token::TokenType::END;
