@@ -1,5 +1,5 @@
 #include <iostream>
-#include "lexer.h"
+#include "lib/Lexer.h"
 
 int main() {
     // Read input from standard input
