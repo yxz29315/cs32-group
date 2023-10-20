@@ -27,6 +27,5 @@ private:
     std::istream& input;
     std::vector<Token> tokens;
     Token getNextToken();
-    void skipWhitespace();
 };
 
