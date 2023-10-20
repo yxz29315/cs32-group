@@ -19,7 +19,7 @@ void Lexer::readTokens() {
         if (input.eof()) {
             token.type = Token::TokenType::END;
             token.text = "END";
-            token.line = nextLine + 1;
+            token.line = nextLine;
             token.column = 1;
             tokens.push_back(token);
         }
@@ -130,6 +130,6 @@ void Lexer::readTokens() {
 void Lexer::printTokens() {
     
     for (Token t : tokens) {
-        std::cout << std::right << std::setw(4) << t.line << std::right << std::setw(5)  << t.column << std::right << std::setw(3) << t.text << std::endl;
+        std::cout << std::right << std::setw(4) << t.line << std::right << std::setw(4)  << t.column << std::right << std::setw(4) << t.text << std::endl;
     }
 }
