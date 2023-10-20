@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 Lexer::Lexer(std::istream& input) : input(input) {
-    // Initialize your lexer as needed
+    
 }
 
 Token Lexer::getNextToken() {
@@ -76,10 +76,8 @@ Token Lexer::getNextToken() {
 
 
 void Lexer::printTokens() {
-    std::vector<Token> tokens = tokenize();
     for(const Token& token: tokens) {         
-            std::cout << std::setw(4) << currentLine << std::setw(4) << currentColumn << " " << token.text;
-
-}
+        std::cout << std::setw(4) << token.line << std::setw(4) << token.column << std::setw(2) << token.text << endl;
+    }
 }
 
