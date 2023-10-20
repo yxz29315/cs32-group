@@ -16,13 +16,7 @@ void Lexer::readTokens() {
         token.column = nextCol;
         char currentChar = input.get();
 
-        if (input.eof()) {
-            token.type = Token::TokenType::END;
-            token.text = "END";
-            token.line = nextLine + 1;
-            token.column = 1;
-            tokens.push_back(token);
-        } else if (currentChar == '(') {
+        if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
             token.text = "(";
             token.line = nextLine;
