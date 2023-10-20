@@ -21,42 +21,49 @@ void Lexer::readTokens() {
             token.text = "END";
             token.line = nextLine + 1;
             token.column = 1;
+            tokens.push_back(token);
         } else if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
             token.text = "(";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == ')') {
             token.type = Token::TokenType::RIGHT_PAREN;
             token.text = ")";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '+') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "+";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '-') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "-";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '*') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "*";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '/') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "/";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
             token.line = nextLine;
@@ -92,7 +99,7 @@ void Lexer::readTokens() {
             }
             // Store numbers as doubles
             token.value = std::stod(token.text);
-
+            tokens.push_back(token);
         } else if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
@@ -102,7 +109,6 @@ void Lexer::readTokens() {
             std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         }
-        tokens.push_back(token);
     }
 
     // Add the END token when reaching the end of the input
