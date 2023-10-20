@@ -23,7 +23,11 @@ Token Lexer::getNextToken() {
 
     token.line = 1; // Initialize line and column numbers here
     token.column = 1;
-
+    if (input.eof()) {  // Check for end of input
+        token.type = Token::TokenType::END;
+        token.text = "END";
+        return token;
+    }
     if (currentChar == '(') {
         token.type = Token::TokenType::LEFT_PAREN;
         token.text = "(";
