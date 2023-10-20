@@ -73,10 +73,10 @@ void Lexer::readTokens() {
             bool hasDecimalPoint = false;
                 
             while (!input.eof()) {
-                currentChar = input.peek();
-                if (std::isdigit(currentChar)) {
+                char next = input.peek();
+                if (std::isdigit(next)) {
+                    currentChar = input.get();
                     token.text += currentChar;
-                    input.get();
                     nextCol++;
                 } else if (currentChar == '.') {
                     input.get();
@@ -90,8 +90,8 @@ void Lexer::readTokens() {
                         std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
                         exit(1);
                     }
+                    currentChar = input.get();
                     token.text += currentChar;
-                    input.get();
                     nextCol++;
                 } else {
                     break;
