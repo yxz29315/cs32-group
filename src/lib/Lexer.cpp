@@ -16,7 +16,14 @@ void Lexer::readTokens() {
         token.column = nextCol;
         char currentChar = input.get();
 
-        if (currentChar == '(') {
+        if (input.eof()) {
+            token.type = Token::TokenType::END;
+            token.text = "END";
+            token.line = nextLine + 1;
+            token.column = 1;
+            tokens.push_back(token);
+        }
+        else if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
             token.text = "(";
             token.line = nextLine;
@@ -117,14 +124,6 @@ void Lexer::readTokens() {
             exit(1);
         }
     }
-
-    // Add the END token when reaching the end of the input
-    Token end;
-    end.type = Token::TokenType::END;
-    end.text = "END";
-    end.line = nextLine + 1;
-    end.column = 1;
-    tokens.push_back(end);
 }
 
 
