@@ -6,7 +6,7 @@
 Lexer::Lexer(std::istream& input) : input(input) {
 }
 
-Token Lexer::readTokens() {
+void Lexer::readTokens() {
     Token token;
     char currentChar;
     double nextLine = 1;

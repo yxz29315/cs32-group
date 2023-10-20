@@ -21,7 +21,7 @@ struct Token {
 class Lexer {
 public:
     Lexer(std::istream& input);
-    Token readTokens();
+    void readTokens();
     void printTokens();
 
 private:
