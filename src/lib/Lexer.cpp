@@ -65,6 +65,7 @@ Token Lexer::getNextToken() {
         } else if (currentChar == '\n') {
             token.line++;      // Advance to the next line
             token.column = 1; // Reset the column number
+            continue;
         } else if (currentChar == ' ') {
             // Skip spaces
         } else {
