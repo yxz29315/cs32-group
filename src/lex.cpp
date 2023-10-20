@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "lib/Lexer.h"
 
 int main() {
@@ -11,7 +12,8 @@ int main() {
     }
 
     // Create a lexer with the input
-    Lexer lexer(input);
+    std::istringstream inputStream(input);
+    Lexer lexer(inputStream);
 
     // Print the tokens
     lexer.printTokens();
