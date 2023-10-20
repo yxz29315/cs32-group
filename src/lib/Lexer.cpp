@@ -107,11 +107,11 @@ void Lexer::readTokens() {
 
     // Add the END token when reaching the end of the input
     Token end;
-    token.type = Token::TokenType::END;
-    token.text = "END";
-    token.line = nextLine + 1;
-    token.column = 1;
-    tokens.push_back(token);
+    end.type = Token::TokenType::END;
+    end.text = "END";
+    end.line = nextLine + 1;
+    end.column = 1;
+    tokens.push_back(end);
 }
 
 
