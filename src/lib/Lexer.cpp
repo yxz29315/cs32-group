@@ -130,14 +130,6 @@ void Lexer::readTokens() {
 void Lexer::printTokens() {
     
     for (Token t : tokens) {
-        std::cout << "\t" << t.line << "\t" << t.column << "\t" << t.text << std::endl;
+        std::cout << "    " << t.line << "    " << t.column << "  " << t.text << std::endl;
     }
-    
-    /*while ((token = getNextToken()).type != Token::TokenType::END) {
-        std::cout << "    " << token.line << "    " << token.column << "  " << token.text << std::endl;
-    }
-    
-    for(const Token& token: tokens) {         
-        std::cout << std::setw(4) << token.line << std::setw(4) << token.column << std::setw(2) << token.text << std::endl;
-    }*/
 }
