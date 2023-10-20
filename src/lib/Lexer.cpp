@@ -85,14 +85,26 @@ void Lexer::readTokens() {
                         std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
                         exit(1);
                     }
+                    hasDecimalPoint = true;
+                    
                     // Check if the decimal is at end of number
                     if (input.eof() || !std::isdigit(input.peek())) {
                         std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
                         exit(1);
                     }
-                    currentChar = input.get();
-                    token.text += currentChar;
-                    nextCol++;
+                    else {
+                        while (!input.eof()) {
+                            if (std::isdigit(input.peek())) {
+                                currentChar = input.get();
+                                token.text += currentChar;
+                                nextCol++;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 } else {
                     break;
                 }
