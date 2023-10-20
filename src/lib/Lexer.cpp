@@ -7,18 +7,14 @@ Lexer::Lexer(std::istream& input) : input(input) {
 }
 
 void Lexer::readTokens() {
-    Token token;
-    char currentChar;
     double nextLine = 1;
     double nextCol = 1;
 
-    // Initialize line and column numbers
-    token.line = nextLine;
-    token.column = nextCol;
-
     while (!input.eof()) {
-        currentChar = input.get();
-        std::cout << currentChar << std::endl;
+        Token token;
+        token.line = nextLine;
+        token.column = nextCol;
+        char currentChar = input.get();
 
         if (input.eof()) {
             token.type = Token::TokenType::END;
