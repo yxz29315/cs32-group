@@ -1,27 +1,32 @@
-#ifndef LEXER_H
-#define LEXER_H
+// lexer.h
+#pragma once
 
-#include "token.h"
 #include <string>
 #include <vector>
-#include <istream>
+
+struct Token {
+    std::string text;
+    int line;
+    int column;
+    enum class TokenType {
+        LEFT_PAREN,
+        RIGHT_PAREN,
+        OPERATOR,
+        NUMBER,
+        END
+    } type;
+};
 
 class Lexer {
 public:
     Lexer(std::istream& input);
+
     std::vector<Token> tokenize();
-    bool hasSyntaxError() const;
-    void printTokensAndPositions() const;
+    void printTokens();
 
 private:
     std::istream& input;
     std::vector<Token> tokens;
-    bool syntaxError;
-
-    void readNextToken();
-    void skipWhitespace();
-    void reportSyntaxError(const std::string& message);
+    Token getNextToken();
 };
-
-#endif // LEX_H
 

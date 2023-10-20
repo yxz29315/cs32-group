@@ -1,111 +1,107 @@
-#include <iostream>
+#include "lexer.h"
 #include <cctype>
-#include <string>
-#include <vector>
-#include <sstream> // Include this header for std::istringstream
+#include <iomanip>
 
-#include "Lexer.h"
-
-
-Lexer::Lexer(std::istream& input) : input(input), syntaxError(false) {
-    // Constructor implementation
-    tokens.push_back(Token(TokenType::END, 1, 1));
+Lexer::Lexer(std::istream& input) : input(input) {
+    // Initialize your lexer as needed
 }
-
-void Lexer::readNextToken() {
-    char currentChar;
-
-    // Skip whitespace characters
-    while (std::isspace(input.peek())) {
-        if (input.peek() == '\n') {
-            // Update line and reset column when a newline is encountered
-            ++tokens.back().line;
-            tokens.back().column = 1;
-        } else {
-            ++tokens.back().column;
-        }
-        input.ignore();
-    }
-
-    if (input.eof()) {
-        // Reached the end of input
-        tokens.push_back(Token(TokenType::END, tokens.back().line, tokens.back().column));
-        return;
-    }
-
-    currentChar = input.get(); // Consume the character
-
-    if (currentChar == '(') {
-        tokens.push_back(Token(TokenType::LEFT_PAREN, tokens.back().line, tokens.back().column));
-    } else if (currentChar == ')') {
-        tokens.push_back(Token(TokenType::RIGHT_PAREN, tokens.back().line, tokens.back().column));
-    } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
-        tokens.push_back(Token(TokenType::OPERATOR, tokens.back().line, tokens.back().column, std::string(1, currentChar)));
-    } else if (std::isdigit(currentChar) || currentChar == '.') {
-        // Read a floating-point number
-        std::string number(1, currentChar);
-        while (!input.eof() && (std::isdigit(input.peek()) || input.peek() == '.')) {
-            number += input.get();
-        }
-
-        // Check if the number is valid (e.g., 12.34.56 is not valid)
-        if (std::count(number.begin(), number.end(), '.') <= 1) {
-            double num = std::stod(number); // Convert the string to a double
-            tokens.push_back(Token(num, tokens.back().line, tokens.back().column));
-        } else {
-            reportSyntaxError();
-        }
-    } else {
-        // Invalid character, report syntax error and exit with code 1
-        reportSyntaxError();
-    }
-}
-
 
 void Lexer::skipWhitespace() {
-    // Skip whitespace characters
-    char currentChar;
-    while (input.get(currentChar)) {
-        if (std::isspace(currentChar)) {
-            if (currentChar == '\n') {
-                // Update line and reset column when a newline is encountered
-                ++tokens.back().line;
-                tokens.back().column = 1;
-            } else {
-                ++tokens.back().column;
-            }
-        } else {
-            input.unget();
-            break;
-        }
+    char c = input.peek();
+    while (std::isspace(c)) {
+        input.get();
+        c = input.peek();
     }
+}
+
+Token Lexer::getNextToken() {
+    skipWhitespace();
+
+    char currentChar = input.peek();
+    Token token;
+
+    token.line = 1; // Initialize line and column numbers here
+    token.column = 1;
+
+    if (currentChar == '(') {
+        token.type = Token::TokenType::LEFT_PAREN;
+        token.text = "(";
+        input.get();
+    } else if (currentChar == ')') {
+        token.type = Token::TokenType::RIGHT_PAREN;
+        token.text = ")";
+        input.get();
+    } else if (currentChar == '+') {
+        token.type = Token::TokenType::OPERATOR;
+        token.text = "+";
+        input.get();
+    } else if (currentChar == '-') {
+        token.type = Token::TokenType::OPERATOR;
+        token.text = "-";
+        input.get();
+    } else if (currentChar == '*') {
+        token.type = Token::TokenType::OPERATOR;
+        token.text = "*";
+        input.get();
+    } else if (currentChar == '/') {
+        token.type = Token::TokenType::OPERATOR;
+        token.text = "/";
+        input.get();
+    } else if (std::isdigit(currentChar) || currentChar == '.') {
+        token.type = Token::TokenType::NUMBER;
+        token.text = "";
+
+        while (std::isdigit(currentChar) || currentChar == '.') {
+            token.text += currentChar;
+            input.get();
+            currentChar = input.peek();
+        }
+
+        // Store numbers as doubles
+        token.value = std::stod(token.text);
+    } else {
+        std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+        exit(1);
+    }
+
+    return token;
 }
 
 std::vector<Token> Lexer::tokenize() {
-    while (true) {
-        skipWhitespace();
-        readNextToken();
+    std::vector<Token> tokens;
+    Token token;
 
-        if (tokens.back().type == TokenType::END) {
-            break;
-        }
-    }
+    do {
+        token = getNextToken();
+        tokens.push_back(token);
+    } while (token.type != Token::TokenType::END);
 
     return tokens;
 }
 
-void Lexer::reportSyntaxError() {
-    std::exit(1);
-}
+void Lexer::printTokens() {
+    std::vector<Token> tokens = tokenize();
 
-bool Lexer::hasSyntaxError() const {
-    return syntaxError;
-}
+    int currentLine = 1; // Initialize line and column numbers for output
+    int currentColumn = 1;
 
-void Lexer::printTokensAndPositions() const {
     for (const Token& token : tokens) {
-        // Print line and column numbers followed by the token
-        std::cout << "\t" << token.line << "\t" << token.column << "\t" << token << std::endl;
+        if (token.text == "\n") {
+            // Handle newlines
+            currentLine++;
+            currentColumn = 1;
+        } else {
+            std::cout << std::setw(4) << currentLine << std::setw(4) << currentColumn << " " << token.text;
+
+            if (token.type == Token::TokenType::NUMBER) {
+                std::cout << " (" << token.value << ")";
+            }
+
+            std::cout << std::endl;
+
+            // Update the column number
+            currentColumn += token.text.length();
+        }
     }
 }
 
