@@ -78,7 +78,7 @@ void Lexer::readTokens() {
                     currentChar = input.get();
                     token.text += currentChar;
                     nextCol++;
-                } else if (currentChar == '.') {
+                } else if (next == '.') {
                     input.get();
                     // Check if there was already a decimal point
                     if (hasDecimalPoint) {
