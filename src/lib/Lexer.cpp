@@ -77,7 +77,7 @@ Token Lexer::getNextToken() {
 
 void Lexer::printTokens() {
     for(const Token& token: tokens) {         
-        std::cout << std::setw(4) << token.line << std::setw(4) << token.column << std::setw(2) << token.text << endl;
+        std::cout << std::setw(4) << token.line << std::setw(4) << token.column << std::setw(2) << token.text << std::endl;
     }
 }
 
