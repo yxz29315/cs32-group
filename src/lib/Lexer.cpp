@@ -1,7 +1,8 @@
 #include "Lexer.h"
 #include <cctype>
 #include <iomanip>
-
+#include <iostream>
+#include <sstream>
 Lexer::Lexer(std::istream& input) : input(input) {
     // Initialize your lexer as needed
 }
