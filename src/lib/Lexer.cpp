@@ -16,7 +16,7 @@ Token Lexer::readTokens() {
     token.line = nextLine;
     token.column = nextCol;
 
-    while (true) {
+    while (!input.eof()) {
         currentChar = input.get();
 
         if (input.eof()) {
@@ -107,6 +107,14 @@ Token Lexer::readTokens() {
         }
         tokens.push_back(token);
     }
+
+    // Add the END token when reaching the end of the input
+    Token end;
+    token.type = Token::TokenType::END;
+    token.text = "END";
+    token.line = nextLine + 1;
+    token.column = 1;
+    tokens.push_back(token);
 }
 
 
