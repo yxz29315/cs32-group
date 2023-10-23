@@ -1,9 +1,10 @@
-/*#include <iostream>
+#include <iostream>
 #include <vector>
 #include <stack>
+#include <sstream>
 
-#include "lex.h"
-#include "token.h"
+#include "Lexer.h"
+#include "Parser.h"
 
 // Define an abstract syntax tree (AST) node
 
@@ -17,24 +18,17 @@ int main() {
         input += line + '\n';
     }
 
-    Lexer lexer(input);
+    std::istringstream inputStream(input);
+    Lexer lexer(inputStream);
     Token* token;
 
     // Initialize a vector to store tokens
-    std::vector<Token*> tokens;
 
     // Tokenize the input
-    do {
-        token = lexer.get_next_token();
-        if (token->type != TokenType::END) {
-            tokens.push_back(token);
-        } else {
-            free_token(token);
-        }
-    } while (token->type != TokenType::END);
+    lexer.readTokens();
 
     // Create a parser with the token vector
-    Parser parser(tokens);
+    Parser parser(lexer->);
 
     // Parse the S-expression
     AstNode* root = parseSExpression(parser);
@@ -58,5 +52,3 @@ int main() {
 
     return 0;
 }
-
-*/

@@ -1,4 +1,4 @@
-/*#include <iostream>
+#include <iostream>
 #include <cctype>
 #include <string>
 #include <vector>
@@ -14,7 +14,7 @@ AstNode* parseSExpression(Parser& parser) {
     AstNode* expr = parseExpression(parser);
 
     // Check if there are extra tokens after the S-expression
-    if (parser.tokens[parser.current_token_index]->type != TokenType::END) {
+    if (parser.tokens[parser.current_token_index]->type != Token::TokenType::END) {
         return nullptr; // Parse error
     }
 
@@ -25,7 +25,7 @@ AstNode* parseSExpression(Parser& parser) {
 AstNode* parseExpression(Parser& parser) {
     Token* currentToken = parser.tokens[parser.current_token_index];
 
-    if (currentToken->type == TokenType::LEFT_PAREN) {
+    if (currentToken->type == Token::TokenType::LEFT_PAREN) {
         parser.current_token_index++; // Consume the opening parenthesis
         AstNode* leftExpr = parseExpression(parser);
 
@@ -35,7 +35,7 @@ AstNode* parseExpression(Parser& parser) {
 
         currentToken = parser.tokens[parser.current_token_index];
 
-        if (currentToken->type == TokenType::OPERATOR) {
+        if (currentToken->type == Token::TokenType::OPERATOR) {
             parser.current_token_index++; // Consume the operator
             AstNode* rightExpr = parseExpression(parser);
 
@@ -44,24 +44,24 @@ AstNode* parseExpression(Parser& parser) {
             }
 
             currentToken = parser.tokens[parser.current_token_index];
-            if (currentToken->type == TokenType::RIGHT_PAREN) {
+            if (currentToken->type == Token::TokenType::RIGHT_PAREN) {
                 parser.current_token_index++; // Consume the closing parenthesis
-                AstNode* rootNode = new AstNode(TokenType::OPERATOR, currentToken->text);
+                AstNode* rootNode = new AstNode(Token::TokenType::OPERATOR, currentToken->text);
                 rootNode->left = leftExpr;
                 rootNode->right = rightExpr;
                 return rootNode;
             } else {
                 return nullptr; // Parse error
             }
-        } else if (currentToken->type == TokenType::RIGHT_PAREN) {
+        } else if (currentToken->type == Token::TokenType::RIGHT_PAREN) {
             parser.current_token_index++; // Consume the closing parenthesis
             return leftExpr; // Return the expression within parentheses
         } else {
             return nullptr; // Parse error
         }
-    } else if (currentToken->type == TokenType::NUMBER) {
+    } else if (currentToken->type == Token::TokenType::NUMBER) {
         parser.current_token_index++; // Consume the number
-        return new AstNode(TokenType::NUMBER, currentToken->text);
+        return new AstNode(Token::TokenType::NUMBER, currentToken->text);
     } else {
         return nullptr; // Parse error
     }
@@ -69,7 +69,7 @@ AstNode* parseExpression(Parser& parser) {
 
 // Function to evaluate an AST node
 double evaluate(AstNode* node) {
-    if (node->type == TokenType::NUMBER) {
+    if (node->type == Token::TokenType::NUMBER) {
         return std::stod(node->text);
     } else {
         double leftValue = evaluate(node->left);
@@ -94,7 +94,7 @@ double evaluate(AstNode* node) {
 
 // Function to print an AST in infix form
 void printInfix(AstNode* node, bool printParentheses) {
-    if (node->type == TokenType::NUMBER) {
+    if (node->type == Token::TokenType::NUMBER) {
         std::cout << node->text;
     } else {
         if (printParentheses) {
@@ -108,4 +108,3 @@ void printInfix(AstNode* node, bool printParentheses) {
         }
     }
 }
-*/

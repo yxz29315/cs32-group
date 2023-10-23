@@ -1,17 +1,11 @@
 #ifndef PARSER_H
 #define PARSER_H
-
-#include "token.h"
 #include <vector>
+#include "AST.h"
+#include "Lexer.h"
 using namespace std;
 
-class AstNode {
-public:
-    TokenType type;
-    string text;
-    AstNode* left;
-    AstNode* right;
-};
+
 
 class Parser {
 public:

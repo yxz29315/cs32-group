@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <vector>
 Lexer::Lexer(std::istream& input) : input(input) {
 }
 
@@ -133,4 +134,14 @@ void Lexer::printTokens() {
     for (Token t : tokens) {
         std::cout << std::right << std::setw(4) << t.line << std::right << std::setw(5)  << t.column << "  " << std::left << std::setw(3) << t.text << std::endl;
     }
+}
+
+std::vector<Token> Lexer::returnTokens()
+{
+    std::vector<Token> temp;
+    for (Token t: tokens)
+    {
+        temp.push_back(t);
+    }
+    return temp;
 }
