@@ -136,12 +136,18 @@ void Lexer::printTokens() {
     }
 }
 
-std::vector<Token> Lexer::returnTokens()
+std::vector<Token*> Lexer::returnTokens()
 {
-    std::vector<Token> temp;
+    std::vector<Token*> temp;
     for (Token t: tokens)
     {
-        temp.push_back(t);
+        Token* x;
+        x->column = t.column;
+        x->line = t.line;
+        x->text = t.text;
+        x->type = t.type;
+        x->value = t.value;
+        temp.push_back(x);
     }
     return temp;
 }

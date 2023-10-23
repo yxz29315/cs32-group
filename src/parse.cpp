@@ -20,27 +20,19 @@ int main() {
 
     std::istringstream inputStream(input);
     Lexer lexer(inputStream);
-    Token* token;
 
     // Initialize a vector to store tokens
 
     // Tokenize the input
     lexer.readTokens();
-    std::vector<Token> vect = lexer.returnTokens();
+    std::vector<Token*> vect = lexer.returnTokens();
 
     // Create a parser with the token vector
     Parser parser(vect);
 
     // Parse the S-expression
-    AstNode* root = parseSExpression(parser);
+    AstNode* root = parser.parseSExpression();
 
-    if (root == nullptr) {
-        // Handle parse errors
-        std::cerr << "Unexpected token at line " << parser.tokens[parser.current_token_index]->line
-                  << " column " << parser.tokens[parser.current_token_index]->column << ": "
-                  << parser.tokens[parser.current_token_index]->text << std::endl;
-        exit(2);
-    }
 
     // Evaluate the AST
     double result = evaluate(root);

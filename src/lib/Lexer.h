@@ -23,7 +23,7 @@ public:
     Lexer(std::istream& input);
     void readTokens();
     void printTokens();
-    std::vector<Token> returnTokens();
+    std::vector<Token*> returnTokens();
 
 private:
     std::istream& input;

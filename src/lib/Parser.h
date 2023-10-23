@@ -12,6 +12,14 @@ public:
     Parser(vector<Token*>& tokens);
     AstNode* parse();
     ~Parser();
+    
+    // Function to parse an S-expression
+    AstNode* parseSExpression();
+
+    // Function to parse an expression
+    AstNode* parseExpression();
+    
+private:
     vector<Token*> tokens;
     size_t current_token_index;
 };
