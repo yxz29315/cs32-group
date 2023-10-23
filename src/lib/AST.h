@@ -1,7 +1,6 @@
 #ifndef AST_H
 #define AST_H
 #include "Lexer.h"
-#include "Parser.h"
 #include <vector>
 using namespace std;
 

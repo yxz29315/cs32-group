@@ -3,8 +3,8 @@
 #include <stack>
 #include <sstream>
 
-#include "Lib/Lexer.h"
-#include "Lib/Parser.h"
+#include "lib/Lexer.h"
+#include "lib/Parser.h"
 
 // Define an abstract syntax tree (AST) node
 
