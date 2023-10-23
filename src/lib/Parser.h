@@ -18,10 +18,11 @@ public:
 
     // Function to parse an expression
     AstNode* parseExpression();
-    
+
 private:
     vector<Token*> tokens;
     size_t current_token_index;
+    AstNode* rootNode;
 };
 
 #endif

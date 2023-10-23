@@ -8,7 +8,16 @@
 
 // Define an abstract syntax tree (AST) node
 
-Parser::Parser(vector<Token*>& tokens) : tokens(tokens) {}
+Parser::Parser(vector<Token*>& tokens) : tokens(tokens), rootNode(nullptr) {}
+Parser::~Parser()
+{
+    delete rootNode;
+    for (Token* t : tokens)
+    {
+        delete t;
+    }
+    tokens.clear();
+}
 
 // Function to parse an expression
 AstNode* Parser::parseExpression() {
@@ -81,7 +90,6 @@ AstNode* Parser::parse()
                   << tokens[current_token_index]->text << std::endl;
         exit(2);
     }
-
-    
+    rootNode = root;
     return root;
 }

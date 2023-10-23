@@ -14,6 +14,7 @@ public:
     AstNode* right;
 
     AstNode(Token::TokenType t, const std::string& txt) : type(t), text(txt), left(nullptr), right(nullptr) {}
+    ~AstNode();
 };
 
 

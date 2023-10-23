@@ -7,7 +7,11 @@
 #include "AST.h"
 using namespace std;
 
-
+AstNode::~AstNode()
+{
+    delete left;
+    delete right;
+}
 
 // Function to evaluate an AST node
 double evaluate(AstNode* node) {
