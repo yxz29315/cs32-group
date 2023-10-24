@@ -65,6 +65,10 @@ void Lexer::readTokens() {
             token.column = nextCol;
             nextCol++;
             tokens.push_back(token);
+        }
+        else if (currentChar == '.') {
+            std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+            exit(1);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
             token.line = nextLine;
