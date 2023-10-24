@@ -59,7 +59,7 @@ void Lexer::readTokens() {
             token.text = currentChar;
             nextCol++;
             bool hasDecimalPoint = false;
-            
+                
             while (!input.eof()) {
                 char next = input.peek();
                 if (std::isdigit(next)) {
@@ -68,19 +68,33 @@ void Lexer::readTokens() {
                     nextCol++;
                 } else if (next == '.') {
                     currentChar = input.get();
-                    // Check if there was already a decimal point
-                    if (hasDecimalPoint) {
-                        std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-                        exit(1);
-                    }
-                    // Check if the decimal is at end of number
-                    if (input.eof() || !std::isdigit(input.peek())) {
-                        std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-                        exit(1);
-                    }
                     token.text += currentChar;
                     nextCol++;
+                    // Check if there was already a decimal point
+                    if (hasDecimalPoint) {
+                        std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+                        exit(1);
+                    }
                     hasDecimalPoint = true;
+                    
+                    // Check if the decimal is at end of number
+                    if (input.eof() || !std::isdigit(input.peek())) {
+                        std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+                        exit(1);
+                    }
+                    else {
+                        while (!input.eof()) {
+                            if (std::isdigit(input.peek())) {
+                                currentChar = input.get();
+                                token.text += currentChar;
+                                nextCol++;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 } else {
                     break;
                 }
