@@ -9,7 +9,7 @@ Lexer::Lexer(std::istream& input) : input(input) {
 void Lexer::readTokens() {
     double nextLine = 1;
     double nextCol = 1;
-    bool hasDecimalPoint = false;
+
     while (!input.eof()) {
         Token token;
         token.line = nextLine;
@@ -66,40 +66,59 @@ void Lexer::readTokens() {
             nextCol++;
             tokens.push_back(token);
         }
-         else if (std::isdigit(currentChar)) {
+        else if (currentChar == '.') {
+            std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+            exit(1);
+        } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
             token.line = nextLine;
             token.column = nextCol;
             token.text = currentChar;
             nextCol++;
-	    while (!input.eof()) {
+            bool hasDecimalPoint = false;
+                
+            while (!input.eof()) {
                 char next = input.peek();
                 if (std::isdigit(next)) {
                     currentChar = input.get();
                     token.text += currentChar;
                     nextCol++;
                 } else if (next == '.') {
+                    currentChar = input.get();
+                    token.text += currentChar;
+                    nextCol++;
                     // Check if there was already a decimal point
                     if (hasDecimalPoint) {
                         std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
                         exit(1);
                     }
-                    token.type = Token::TokenType::NUMBER;
-                    token.text += ".";
-                    token.value = std::stod(token.text);
                     hasDecimalPoint = true;
-                    nextCol++;
-                    // Add the decimal point to the token list
-                    tokens.push_back(token);
+                    
+                    // Check if the decimal is at end of number
+                    if (input.eof() || !std::isdigit(input.peek())) {
+                        std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+                        exit(1);
+                    }
+                    else {
+                        while (!input.eof()) {
+                            if (std::isdigit(input.peek())) {
+                                currentChar = input.get();
+                                token.text += currentChar;
+                                nextCol++;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 } else {
                     break;
                 }
             }
-            // Store numbers as doubles if no decimal point is present
-            if (!hasDecimalPoint) {
-                token.value = std::stod(token.text);
-                tokens.push_back(token);
-            }
+            // Store numbers as doubles
+            token.value = std::stod(token.text);
+            tokens.push_back(token);
         } else if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
