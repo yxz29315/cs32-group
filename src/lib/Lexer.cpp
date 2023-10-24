@@ -10,7 +10,7 @@ Lexer::Lexer(std::istream& input) : input(input) {
 void Lexer::readTokens() {
     double nextLine = 1;
     double nextCol = 1;
-    while (!input.eof() && input.peek() != EOF) {
+    while (input) {
         Token token;
         token.line = nextLine;
         token.column = nextCol;
