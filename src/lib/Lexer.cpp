@@ -22,42 +22,36 @@ void Lexer::readTokens() {
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (currentChar == ')') {
             token.type = Token::TokenType::RIGHT_PAREN;
             token.text = ")";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (currentChar == '+') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "+";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (currentChar == '-') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "-";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (currentChar == '*') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "*";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (currentChar == '/') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "/";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
-            tokens.push_back(token);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
             token.line = nextLine;
