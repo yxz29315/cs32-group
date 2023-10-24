@@ -15,6 +15,9 @@ void Lexer::readTokens() {
         token.line = nextLine;
         token.column = nextCol;
         char currentChar = input.get();
+        if (input.eof() || input.peek() == EOF) {
+            break;
+        }
         //std::cout << "currentChar: '" << currentChar << "'\n";
         
         if (currentChar == '(') {
@@ -60,7 +63,7 @@ void Lexer::readTokens() {
             nextCol++;
             tokens.push_back(token);
         } else if (currentChar == '.') {
-            std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+            std::cout << "Syntax error on line " << token.line << " column " << token.column << ".\n";
             exit(1);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
@@ -80,12 +83,12 @@ void Lexer::readTokens() {
                     currentChar = input.get();
                     // Check if there was already a decimal point
                     if (hasDecimalPoint) {
-                        std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+                        std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
                     // Check if the decimal is at end of number
                     if (!std::isdigit(input.peek())) {
-                        std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+                        std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
                     token.text += currentChar;
@@ -106,14 +109,14 @@ void Lexer::readTokens() {
         }
         else {
             // Invalid character
-            std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+            std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         }
     }
     // Add END token
     Token end;
-    end.line = 3;//nextLine;
-    end.column = 11;//nextCol;
+    end.line = nextLine;
+    end.column = nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
     tokens.push_back(end);
@@ -123,6 +126,6 @@ void Lexer::readTokens() {
 void Lexer::printTokens() {
     
     for (Token t : tokens) {
-    std::cout << std::right << std::setw(4) << t.line << std::setw(5)  << t.column << "  " << std::left << t.text << std::endl;
+        std::cout << std::right << std::setw(4) << t.line << std::setw(5)  << t.column << "  " << std::left << t.text << std::endl;
     }
 }
