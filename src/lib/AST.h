@@ -1,8 +1,6 @@
-/*#ifndef AST_H
+#ifndef AST_H
 #define AST_H
-#include "parse.h"
-#include "token.h"
-#include "lex.h"
+#include "Lexer.h"
 #include <vector>
 using namespace std;
 
@@ -10,19 +8,15 @@ using namespace std;
 
 class AstNode {
 public:
-    TokenType type;
+    Token::TokenType type;
     std::string text;
     AstNode* left;
     AstNode* right;
 
-    AstNode(TokenType t, const std::string& txt) : type(t), text(txt), left(nullptr), right(nullptr) {}
+    AstNode(Token::TokenType t, const std::string& txt) : type(t), text(txt), left(nullptr), right(nullptr) {}
+    ~AstNode();
 };
 
-// Function to parse an S-expression
-AstNode* parseSExpression(Lexer& lexer);
-
-// Function to parse an expression
-AstNode* parseExpression(Lexer& lexer);
 
 // Function to evaluate an AST node
 double evaluate(AstNode* node);
@@ -31,4 +25,3 @@ double evaluate(AstNode* node);
 void printInfix(AstNode* node, bool printParentheses = false);
 
 #endif
-*/
