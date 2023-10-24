@@ -15,6 +15,7 @@ void Lexer::readTokens() {
         token.line = nextLine;
         token.column = nextCol;
         char currentChar = input.get();
+        
         if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
             token.text = "(";
@@ -102,12 +103,7 @@ void Lexer::readTokens() {
         } else if (currentChar == ' ') {
             nextCol++;
         }
-        else {
-            std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-            exit(1);
-        }
-
-        if (input.eof()) {
+        else if (input.eof()) {
             // Add END token
             Token end;
             end.line = nextLine;
@@ -115,6 +111,10 @@ void Lexer::readTokens() {
             end.type = Token::TokenType::END;
             end.text = "END";
             tokens.push_back(end);
+        }
+        else {
+            std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+            exit(1);
         }
     }
 }
