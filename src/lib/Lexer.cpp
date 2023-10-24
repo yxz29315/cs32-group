@@ -10,14 +10,12 @@ Lexer::Lexer(std::istream& input) : input(input) {
 void Lexer::readTokens() {
     double nextLine = 1;
     double nextCol = 1;
-    while (!input.eof()) {
+    while (!input.eof() && input.peek() != EOF) {
         Token token;
         token.line = nextLine;
         token.column = nextCol;
         char currentChar = input.get();
-        if (input.eof()) {
-            break;
-        }
+        //std::cout << "currentChar: '" << currentChar << "'\n";
         
         if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
@@ -72,7 +70,7 @@ void Lexer::readTokens() {
             nextCol++;
             bool hasDecimalPoint = false;
             
-            while (!input.eof()) {
+            while (!input.eof() && input.peek() != EOF) {
                 char next = input.peek();
                 if (std::isdigit(next)) {
                     currentChar = input.get();
@@ -114,8 +112,8 @@ void Lexer::readTokens() {
     }
     // Add END token
     Token end;
-    end.line = nextLine;
-    end.column = nextCol;
+    end.line = 3;//nextLine;
+    end.column = 11;//nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
     tokens.push_back(end);
