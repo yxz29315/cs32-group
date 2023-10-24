@@ -18,7 +18,6 @@ void Lexer::readTokens() {
         if (input.eof()) {
             break;
         }
-        std::cout << "currentChar: '" << currentChar << "'\n";
         
         if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
