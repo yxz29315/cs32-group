@@ -10,11 +10,15 @@ Lexer::Lexer(std::istream& input) : input(input) {
 void Lexer::readTokens() {
     double nextLine = 1;
     double nextCol = 1;
-    while (!(input.peek() == EOF)) {
+    while (!input.eof()) {
         Token token;
         token.line = nextLine;
         token.column = nextCol;
         char currentChar = input.get();
+        if (input.eof()) {
+            break;
+        }
+        std::cout << "currentChar: '" << currentChar << "'\n";
         
         if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
@@ -69,7 +73,7 @@ void Lexer::readTokens() {
             nextCol++;
             bool hasDecimalPoint = false;
             
-            while (!(input.peek() == EOF)) {
+            while (!input.eof()) {
                 char next = input.peek();
                 if (std::isdigit(next)) {
                     currentChar = input.get();
@@ -83,7 +87,7 @@ void Lexer::readTokens() {
                         exit(1);
                     }
                     // Check if the decimal is at end of number
-                    if ((input.peek() == EOF) || !std::isdigit(input.peek())) {
+                    if (!std::isdigit(input.peek())) {
                         std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
