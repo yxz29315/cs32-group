@@ -22,36 +22,42 @@ void Lexer::readTokens() {
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == ')') {
             token.type = Token::TokenType::RIGHT_PAREN;
             token.text = ")";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '+') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "+";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '-') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "-";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '*') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "*";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (currentChar == '/') {
             token.type = Token::TokenType::OPERATOR;
             token.text = "/";
             token.line = nextLine;
             token.column = nextCol;
             nextCol++;
+            tokens.push_back(token);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
             token.line = nextLine;
@@ -87,6 +93,7 @@ void Lexer::readTokens() {
             }
             // Store numbers as doubles
             token.value = std::stod(token.text);
+            tokens.push_back(token);
         } else if (currentChar == '.') {
             std::cerr << "Syntax error on line " << token.line << " column " << token.column << ".\n";
             exit(1);
@@ -102,7 +109,6 @@ void Lexer::readTokens() {
             std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         }
-        tokens.push_back(token);
     }
     // Add END token
     Token end;
