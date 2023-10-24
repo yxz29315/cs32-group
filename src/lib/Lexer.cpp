@@ -103,19 +103,21 @@ void Lexer::readTokens() {
         } else if (currentChar == ' ') {
             nextCol++;
         }
+        else if (input.eof()) {
+            // Add END token
+            Token end;
+            end.line = nextLine;
+            end.column = nextCol;
+            end.type = Token::TokenType::END;
+            end.text = "END";
+            tokens.push_back(end);
+        }
         else {
             // Invalid character
             std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         }
     }
-    // Add END token
-    Token end;
-    end.line = nextLine;
-    end.column = nextCol;
-    end.type = Token::TokenType::END;
-    end.text = "END";
-    tokens.push_back(end);
 }
 
 
