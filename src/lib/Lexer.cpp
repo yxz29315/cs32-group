@@ -15,7 +15,7 @@ void Lexer::readTokens() {
         token.line = nextLine;
         token.column = nextCol;
         char currentChar = input.get();
-        if (input.eof() || input.peek() == EOF) {
+        if (input.eof()) {
             break;
         }
         //std::cout << "currentChar: '" << currentChar << "'\n";
