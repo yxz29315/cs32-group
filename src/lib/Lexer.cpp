@@ -97,8 +97,10 @@ void Lexer::readTokens() {
         } else if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
+            continue;
         } else if (currentChar == ' ') {
             nextCol++;
+            continue;
         }
         else {
             std::cerr << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
