@@ -28,7 +28,7 @@ AstNode* Parser::parseExpression() {
         AstNode* leftExpr = parseExpression();
 
         if (leftExpr == nullptr) {
-            std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+            std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
                  exit(2); // Parse error
@@ -41,7 +41,7 @@ AstNode* Parser::parseExpression() {
             AstNode* rightExpr = parseExpression();
 
             if (rightExpr == nullptr) {
-                std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+                std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
                   exit(2); // Parse error
@@ -55,7 +55,7 @@ AstNode* Parser::parseExpression() {
                 rootNode->right = rightExpr;
                 return rootNode;
             } else {
-                std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+                std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
                  exit(2); // Parse error
@@ -64,7 +64,7 @@ AstNode* Parser::parseExpression() {
             current_token_index++; // Consume the closing parenthesis
             return leftExpr; // Return the expression within parentheses
         } else {
-            std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+            std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
         exit(2); // Parse error
@@ -73,7 +73,7 @@ AstNode* Parser::parseExpression() {
         current_token_index++; // Consume the number
         return new AstNode(Token::TokenType::NUMBER, currentToken->text);
     } else {
-        std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
         exit(2); // Parse error
