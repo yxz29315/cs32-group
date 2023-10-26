@@ -29,8 +29,8 @@ void Lexer::readTokens() {
             //std::cout << "currentChar == space\n";
         } else if (currentChar == '\t') {
             //std::cout << "tab detected" << std::endl;
-            /*nextCol++;
-            std::cout << "currentChar == tab/space\n";*/
+            nextCol++;
+            //std::cout << "currentChar == tab/space\n";
         }
         else if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
