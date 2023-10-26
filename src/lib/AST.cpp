@@ -42,6 +42,8 @@ double evaluate(AstNode* node) {
 
 // Function to print an AST in infix form
 void printInfix(AstNode* node, bool printParentheses) {
+    if (!node)
+        return;
     if (node->type == Token::TokenType::NUMBER) {
         std::cout << node->text;
     } else {
@@ -52,7 +54,8 @@ void printInfix(AstNode* node, bool printParentheses) {
         std::cout << " " << node->text << " ";
         printInfix(node->right, true);
         if (printParentheses) {
-            std::cout << ")";
+            std::cout << ")" << std::endl;
         }
+
     }
 }
