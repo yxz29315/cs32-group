@@ -1,3 +1,4 @@
+
 #include "Lexer.h"
 #include <cctype>
 #include <iomanip>
@@ -18,9 +19,14 @@ void Lexer::readTokens() {
         if (input.eof()) {
             break;
         }
-        //std::cout << "currentChar: '" << currentChar << "'\n";
-        
-        if (currentChar == '(') {
+        //std::cout << "currentChar: '" << currentChar << "'\n"]
+        if (currentChar == '\n') {
+            nextLine++;
+            nextCol = 1;
+        } else if (currentChar == ' ') {
+            nextCol++;
+        }
+        else if (currentChar == '(') {
             token.type = Token::TokenType::LEFT_PAREN;
             token.text = "(";
             token.line = nextLine;
@@ -101,12 +107,7 @@ void Lexer::readTokens() {
             // Store numbers as doubles
             token.value = std::stod(token.text);
             tokens.push_back(token);
-        } else if (currentChar == '\n') {
-            nextLine++;
-            nextCol = 1;
-        } else if (currentChar == ' ') {
-            nextCol++;
-        }
+        } 
         else {
             // Invalid character
             std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
