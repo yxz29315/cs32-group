@@ -19,7 +19,7 @@ void Lexer::readTokens() {
         if (input.eof()) {
             break;
         }
-        //std::cout << "currentChar: '" << currentChar << "'\n"]
+        std::cout << "currentChar: '" << currentChar << "'\n";
         if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
@@ -138,7 +138,7 @@ void Lexer::printTokens() {
 std::vector<Token*> Lexer:: returnTokens() {
     std::vector<Token*> temp;
     for (Token t : tokens) {
-        Token* x;
+        Token* x = new Token;
         x->column = t.column;
         x->line = t.line;
         x->text = t.text;
