@@ -94,6 +94,7 @@ void Lexer::readTokens() {
                     }
                     // Check if the decimal is at end of number
                     if (!std::isdigit(input.peek())) {
+                        nextCol++;
                         std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
@@ -116,8 +117,8 @@ void Lexer::readTokens() {
     }
     // Add END token
     Token end;
-    end.line = 3;//nextLine;
-    end.column = 11;//nextCol;
+    end.line = nextLine;
+    end.column = nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
     tokens.push_back(end);
