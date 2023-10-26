@@ -99,7 +99,7 @@ void Lexer::readTokens() {
                     }
                     // Check if the decimal is at end of number
                     if (!std::isdigit(input.peek())) {
-                        nextCol++;
+                        //nextCol++;
                         std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
