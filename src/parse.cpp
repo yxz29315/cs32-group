@@ -36,13 +36,13 @@ int main() {
 
     // Evaluate the AST
     double result = evaluate(root);
-    delete root;
     // Print the AST in infix form
     printInfix(root, true);
     std::cout << std::endl;
 
     // Print the result
     std::cout << result << std::endl;
+    delete root;
 
     return 0;
 }
