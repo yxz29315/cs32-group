@@ -28,6 +28,7 @@ void Lexer::readTokens() {
             nextCol++;
             //std::cout << "currentChar == space\n";
         } else if (currentChar == '\t') {
+            //std::cout << "tab detected" << std::endl;
             /*nextCol++;
             std::cout << "currentChar == tab/space\n";*/
         }
@@ -99,7 +100,7 @@ void Lexer::readTokens() {
                     }
                     // Check if the decimal is at end of number
                     if (!std::isdigit(input.peek())) {
-                        //nextCol++;
+                        nextCol++;
                         std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
