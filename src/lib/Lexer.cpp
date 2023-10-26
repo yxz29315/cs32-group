@@ -19,14 +19,14 @@ void Lexer::readTokens() {
         if (input.eof()) {
             break;
         }
-        std::cout << "currentChar: '" << currentChar << "'\tASCI: '" << static_cast<int>(currentChar) << "'\n";
+        //std::cout << "currentChar: '" << currentChar << "'\tASCI: '" << static_cast<int>(currentChar) << "'\n";
         if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
-            std::cout << "currentChar == newline\n";
+            //std::cout << "currentChar == newline\n";
         } else if (currentChar == ' ') {
             nextCol++;
-            std::cout << "currentChar == space\n";
+            //std::cout << "currentChar == space\n";
         } else if (currentChar == '\t') {
             /*nextCol++;
             std::cout << "currentChar == tab/space\n";*/
