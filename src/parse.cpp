@@ -25,7 +25,7 @@ int main() {
 
     // Tokenize the input
     lexer.readTokens();
-    std::vector<Token*> vect = lexer.readTokens();
+    std::vector<Token*> vect = lexer.returnTokens();
 
     // Create a parser with the token vector
     Parser parser(vect);
