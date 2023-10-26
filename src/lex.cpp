@@ -8,7 +8,7 @@ int main() {
     std::string line;
     while (std::getline(std::cin, line)) {
         input += line;
-        input += '\n';  // Add newline for line separation
+        input += '\n';
     }
 
     // Create a lexer with the input
