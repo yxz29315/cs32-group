@@ -11,7 +11,7 @@ int main() {
         if (std::getline(std::cin, line)) {
             input += line;
             input += "\n";
-            std::cout<< "reading: '" << line << "'\n";
+            //std::cout<< "reading: '" << line << "'\n";
         }
     }
 
