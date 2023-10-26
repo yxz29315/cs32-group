@@ -39,6 +39,7 @@ int main() {
 
     // Print the AST in infix form
     printInfix(root, true);
+    std::cout << std::endl;
 
     // Print the result
     std::cout << result << std::endl;

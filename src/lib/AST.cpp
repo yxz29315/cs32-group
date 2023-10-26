@@ -34,7 +34,7 @@ double evaluate(AstNode* node) {
             if (rightValue != 0) {
                 return leftValue / rightValue;
             } else {
-                std::cerr << "Runtime error: division by zero." << std::endl;
+                std::cout << "Runtime error: division by zero." << std::endl;
                 exit(3);
             }
         }

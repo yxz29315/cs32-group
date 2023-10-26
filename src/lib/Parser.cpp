@@ -87,7 +87,7 @@ AstNode* Parser::parseSExpression() {
 
     // Check if there are extra tokens after the S-expression
     if (tokens[current_token_index]->type != Token::TokenType::END) {
-        std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
         exit(2); // Parse error
@@ -103,7 +103,7 @@ AstNode* Parser::parse()
 
     if (root == nullptr) {
         // Handle parse errors
-        std::cerr << "Unexpected token at line " << tokens[current_token_index]->line
+        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
                   << tokens[current_token_index]->text << std::endl;
         exit(2);
