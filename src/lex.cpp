@@ -6,9 +6,14 @@ int main() {
     // Read input from standard input
     std::string input;
     std::string line;
-    while (std::getline(std::cin, line)) {
-        input += line;
-        input += '\n';
+    char character;
+
+    while (!std::cin.eof()) {
+        if (std::getline(std::cin, line)) {
+            input += line;
+            input += "\n";
+            std::cout<< "reading: '" << line << "'\n";
+        }
     }
 
     // Create a lexer with the input
