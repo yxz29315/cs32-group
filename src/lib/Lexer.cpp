@@ -111,6 +111,9 @@ void Lexer::readTokens() {
         } 
         else {
             // Invalid character
+            nextLine++;
+            nextCol++;
+
             std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         }
