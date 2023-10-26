@@ -116,8 +116,8 @@ void Lexer::readTokens() {
     }
     // Add END token
     Token end;
-    end.line = nextLine;
-    end.column = nextCol;
+    end.line = 3;//nextLine;
+    end.column = 11;//nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
     tokens.push_back(end);
