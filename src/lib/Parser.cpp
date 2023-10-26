@@ -72,7 +72,8 @@ AstNode* Parser::parseExpression() {
         }
     } else if (currentToken->type == Token::TokenType::NUMBER) {
         current_token_index++; // Consume the number
-        return new AstNode(Token::TokenType::NUMBER, currentToken->text);
+        AstNode* temp = new AstNode(Token::TokenType::NUMBER, currentToken->text);
+        return temp;
     } else {
         std::cout << "Unexpected token at line " << tokens[current_token_index]->line
                   << " column " << tokens[current_token_index]->column << ": "
