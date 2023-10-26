@@ -6,7 +6,6 @@ int main() {
     // Read input from standard input
     std::string input;
     std::string line;
-    char character;
 
     while (!std::cin.eof()) {
         if (std::getline(std::cin, line)) {
