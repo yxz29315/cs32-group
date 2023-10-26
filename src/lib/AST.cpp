@@ -16,7 +16,9 @@ AstNode::~AstNode()
 // Function to evaluate an AST node
 double evaluate(AstNode* node) {
     if (!node)
+    {
         return 0;
+    }
     if (node->type == Token::TokenType::NUMBER) {
         return std::stod(node->text);
     } else {
@@ -54,7 +56,7 @@ void printInfix(AstNode* node, bool printParentheses) {
         std::cout << " " << node->text << " ";
         printInfix(node->right, true);
         if (printParentheses) {
-            std::cout << ")" << std::endl;
+            std::cout << ")";
         }
 
     }

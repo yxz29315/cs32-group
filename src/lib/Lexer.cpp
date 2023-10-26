@@ -75,7 +75,8 @@ void Lexer::readTokens() {
             nextCol++;
             tokens.push_back(token);
         } else if (currentChar == '.') {
-            std::cout << "Syntax error on line " << token.line << " column " << token.column << ".\n";
+            nextCol++;
+            std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
             exit(1);
         } else if (std::isdigit(currentChar)) {
             token.type = Token::TokenType::NUMBER;
@@ -95,6 +96,7 @@ void Lexer::readTokens() {
                     currentChar = input.get();
                     // Check if there was already a decimal point
                     if (hasDecimalPoint) {
+                        nextCol++;
                         std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                         exit(1);
                     }
