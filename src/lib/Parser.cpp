@@ -21,6 +21,7 @@ Parser::~Parser()
 
 // Function to parse an expression
 AstNode* Parser::parseExpression() {
+    current_token_index = 0;
     Token* currentToken = tokens[current_token_index];
 
     if (currentToken->type == Token::TokenType::LEFT_PAREN) {
