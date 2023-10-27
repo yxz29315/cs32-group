@@ -1,4 +1,4 @@
-#ifndef PARSER_H
+/*#ifndef PARSER_H
 #define PARSER_H
 #include <vector>
 #include "AST.h"
@@ -25,4 +25,4 @@ private:
     AstNode* rootNode;
 };
 
-#endif
+#endif*/

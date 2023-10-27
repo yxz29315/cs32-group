@@ -1,4 +1,4 @@
-#ifndef AST_H
+/*#ifndef AST_H
 #define AST_H
 #include "Lexer.h"
 #include <vector>
@@ -24,4 +24,4 @@ double evaluate(AstNode* node);
 // Function to print an AST in infix form
 void printInfix(AstNode* node, bool printParentheses = false);
 
-#endif
+#endif*/
