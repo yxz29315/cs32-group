@@ -24,7 +24,7 @@ AstNode* Parser::parseExpression() {
     current_token_index = 0;
     Token* currentToken = tokens[current_token_index];
 
-    if (currentToken->type == Token::TokenType::LEFT_PAREN) {
+    if (currentToken->text == "(") {
         current_token_index++; // Consume the opening parenthesis
         AstNode* leftExpr = parseExpression();
 
@@ -49,7 +49,7 @@ AstNode* Parser::parseExpression() {
             }
 
             currentToken = tokens[current_token_index];
-            if (currentToken->type == Token::TokenType::RIGHT_PAREN) {
+            if (currentToken->text == ")") {
                 current_token_index++; // Consume the closing parenthesis
                 AstNode* rootNode = new AstNode(Token::TokenType::OPERATOR, currentToken->text);
                 rootNode->left = leftExpr;
@@ -61,7 +61,7 @@ AstNode* Parser::parseExpression() {
                   << tokens[current_token_index]->text << std::endl;
                  exit(2); // Parse error
             }
-        } else if (currentToken->type == Token::TokenType::RIGHT_PAREN) {
+        } else if (currentToken->text == ")") {
             current_token_index++; // Consume the closing parenthesis
             return leftExpr; // Return the expression within parentheses
         } else {

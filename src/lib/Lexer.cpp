@@ -3,18 +3,16 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-Lexer::Lexer(std::istream& input) : input(input) {
-}
 
 
-
-void Lexer::readTokens() {
+void Lexer::readTokens(std::string inputStr) {
+    std::istringstream stream(inputStr);
     double nextLine = 1;
     double nextCol = 1;
     char currentChar;
     std::string temp;
 
-    while (input.get(currentChar)) {
+    while (stream.get(currentChar)) {
 
         if (currentChar == '\n') {
             nextLine++;
@@ -39,8 +37,8 @@ void Lexer::readTokens() {
                 temp2 += currentChar;
                 int col1 = nextCol;
 
-                while ((isdigit(input.peek()) || input.peek() == '.')) {
-                    if (input.peek() == '.') {
+                while ((isdigit(stream.peek()) || stream.peek() == '.')) {
+                    if (stream.peek() == '.') {
                         if (hasDec) {
                             std::cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
                             exit(1);
@@ -50,7 +48,7 @@ void Lexer::readTokens() {
                         }
                     }
                     char next;
-                    input.get(next);
+                    stream.get(next);
                     temp2 += next;
                     nextCol++;
                 }
@@ -70,24 +68,28 @@ void Lexer::readTokens() {
                 exit(1);
             }
         }
+        nextCol++;
     }
     // Add END token
     Token end;
-    end.line = nextLine;//nextLine;
-    end.column = nextCol;//nextCol;
+    end.line = nextLine;
+    end.column = nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
-    tokens.push_back(end);
+    tokens.push(end);
 }
 
 
 void Lexer::printTokens() {
     
-    for (Token t : tokens) {
-        std::cout << std::setfill(' ') << std::setw(4)  << std::right << t.line << std::setfill(' ') << std::setw(5)  << std::right << t.column << "  " << std::left << t.text << std::endl;
+    while (!tokens.empty()) {
+        Token cur = tokens.front();
+        std::cout << std::setfill(' ')  << std::setw(4) << std::right << cur.line << std::setfill(' ')
+        << std::setw(5) << std::right << cur.column << "  " << cur.text << std::endl;
+        tokens.pop();
     }
 }
 
-std::queue<Token> Lexer::returnTokens() {
+std::queue<Token> Lexer::getTokens() {
     return tokens;
 }

@@ -22,13 +22,12 @@ struct Token {
 
 class Lexer {
 public:
-    Lexer(std::istream& input);
-    void readTokens();
+    void readTokens(std::string inputString);
     void printTokens();
-    std::queue<Token> returnTokens();
+    std::queue<Token> getTokens();
 
 private:
-    std::istream& input;
     std::queue<Token> tokens;
 };
 
+#endif

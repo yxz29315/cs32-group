@@ -4,21 +4,16 @@
 
 int main() {
     // Read input from standard input
-    std::string input;
-    std::string line;
+    char ch;
+    std::string str = "\0";
 
-    while (!std::cin.eof()) {
-        if (std::getline(std::cin, line)) {
-            input += line;
-            input += "\n";
-            //std::cout<< "reading: '" << line << "'\n";
-        }
+    while (std::cin.get(ch)) {
+        str += ch;
     }
 
     // Create a lexer with the input
-    std::istringstream inputStream(input);
-    Lexer lexer(inputStream);
-    lexer.readTokens();
+    Lexer lexer;
+    lexer.readTokens(str);
     // Print the tokens
     lexer.printTokens();
 
