@@ -1,4 +1,3 @@
-
 #include "Lexer.h"
 #include <cctype>
 #include <iomanip>
@@ -8,120 +7,68 @@ Lexer::Lexer(std::istream& input) : input(input) {
 }
 
 
+
 void Lexer::readTokens() {
     double nextLine = 1;
     double nextCol = 1;
-    while (input) {
-        Token token;
-        token.line = nextLine;
-        token.column = nextCol;
-        char currentChar = input.get();
-        if (input.eof()) {
-            break;
-        }
-        //std::cout << "currentChar: '" << currentChar << "'\tASCI: '" << static_cast<int>(currentChar) << "'\n";
+    char currentChar;
+    std::string temp;
+
+    while (input.get(currentChar)) {
+
         if (currentChar == '\n') {
             nextLine++;
             nextCol = 1;
-            //std::cout << "currentChar == newline\n";
-        } else if (currentChar == ' ') {
-            nextCol++;
-            //std::cout << "currentChar == space\n";
-        } else if (currentChar == '\t') {
-            //std::cout << "tab detected" << std::endl;
-            nextCol++;
-            //std::cout << "currentChar == tab/space\n";
+            continue;
         }
-        else if (currentChar == '(') {
-            token.type = Token::TokenType::LEFT_PAREN;
-            token.text = "(";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == ')') {
-            token.type = Token::TokenType::RIGHT_PAREN;
-            token.text = ")";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == '+') {
-            token.type = Token::TokenType::OPERATOR;
-            token.text = "+";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == '-') {
-            token.type = Token::TokenType::OPERATOR;
-            token.text = "-";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == '*') {
-            token.type = Token::TokenType::OPERATOR;
-            token.text = "*";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == '/') {
-            token.type = Token::TokenType::OPERATOR;
-            token.text = "/";
-            token.line = nextLine;
-            token.column = nextCol;
-            nextCol++;
-            tokens.push_back(token);
-        } else if (currentChar == '.') {
-            std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-            exit(1);
-        } else if (std::isdigit(currentChar)) {
-            token.type = Token::TokenType::NUMBER;
-            token.line = nextLine;
-            token.column = nextCol;
-            token.text = currentChar;
-            nextCol++;
-            bool hasDecimalPoint = false;
-            
-            while (!input.eof() && input.peek() != EOF) {
-                char next = input.peek();
-                if (std::isdigit(next)) {
-                    currentChar = input.get();
-                    token.text += currentChar;
-                    nextCol++;
-                } else if (next == '.') {
-                    currentChar = input.get();
-                    // Check if there was already a decimal point
-                    if (hasDecimalPoint) {
-                        std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-                        exit(1);
-                    }
-                    // Check if the decimal is at end of number
-                    if (!std::isdigit(input.peek())) {
-                        nextCol++;
-                        std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-                        exit(1);
-                    }
-                    token.text += currentChar;
-                    nextCol++;
-                    hasDecimalPoint = true;
-                } else {
-                    break;
-                }
-            }
-            // Store numbers as doubles
-            token.value = std::stod(token.text);
-            tokens.push_back(token);
-        } 
-        else {
-            // Invalid character
-            nextLine++;
-            nextCol++;
 
-            std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
-            exit(1);
+        if (!isspace(currentChar)) {
+            if (currentChar == '(' || currentChar == ')' || currentChar == '+' ||
+                currentChar == '-' || currentChar == '*' || currentChar == '/') {
+                    Token x;
+                    x.line = nextLine;
+                    x.column = nextCol;
+                    x.type = Token::TokenType::OPERATOR;
+                    x.text = "";
+                    x.text += currentChar;
+                    tokens.push(x);
+            }
+            else if (isdigit(currentChar)) {
+                bool hasDec = false;
+                std::string temp2 = "";
+                temp2 += currentChar;
+                int col1 = nextCol;
+
+                while ((isdigit(input.peek()) || input.peek() == '.')) {
+                    if (input.peek() == '.') {
+                        if (hasDec) {
+                            std::cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
+                            exit(1);
+                        }
+                        else {
+							hasDec = true;
+                        }
+                    }
+                    char next;
+                    input.get(next);
+                    temp2 += next;
+                    nextCol++;
+                }
+
+                if (temp2.back() == '.') {
+                    std::cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
+                    exit(1);
+                }
+                Token y;
+                y.line = nextLine;
+                y.column = col1;
+                y.text = temp2;
+                tokens.push(y);
+            }
+            else {
+                std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+                exit(1);
+            }
         }
     }
     // Add END token

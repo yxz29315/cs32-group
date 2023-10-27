@@ -1,8 +1,6 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-#include "Token.h"
-
 #include <vector>
 #include <iostream>
 #include <cstdlib>
@@ -16,8 +14,6 @@ struct Token {
     int line;
     int column;
     enum class TokenType {
-        LEFT_PAREN,
-        RIGHT_PAREN,
         OPERATOR,
         NUMBER,
         END
