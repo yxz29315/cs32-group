@@ -22,6 +22,7 @@ Parser::~Parser()
             delete x;
         x = nullptr;
     }
+    nodes.clear();
 
 }
 
