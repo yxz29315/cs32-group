@@ -21,6 +21,7 @@ public:
 
 private:
     vector<Token*> tokens;
+    vector<AstNode*> nodes;
     size_t current_token_index;
     AstNode* rootNode;
 };

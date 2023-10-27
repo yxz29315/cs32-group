@@ -11,6 +11,8 @@ AstNode::~AstNode()
 {
     delete left;
     delete right;
+    left = nullptr;
+    right = nullptr;
 }
 
 // Function to evaluate an AST node

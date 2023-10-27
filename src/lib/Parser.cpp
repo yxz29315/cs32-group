@@ -11,12 +11,18 @@
 Parser::Parser(vector<Token*>& tokens) : tokens(tokens), rootNode(nullptr) {}
 Parser::~Parser()
 {
-    delete rootNode;
     for (Token* t : tokens)
     {
         delete t;
     }
     tokens.clear();
+    for (AstNode* x: nodes)
+    {
+        if (x != nullptr)
+            delete x;
+        x = nullptr;
+    }
+
 }
 
 // Function to parse an expression
@@ -54,6 +60,7 @@ AstNode* Parser::parseExpression() {
                 AstNode* rootNode = new AstNode(Token::TokenType::OPERATOR, currentToken->text);
                 rootNode->left = leftExpr;
                 rootNode->right = rightExpr;
+                nodes.push_back(rootNode);
                 return rootNode;
             } else {
                 std::cout << "Unexpected token at line " << tokens[current_token_index]->line
@@ -73,6 +80,7 @@ AstNode* Parser::parseExpression() {
     } else if (currentToken->type == Token::TokenType::NUMBER) {
         current_token_index++; // Consume the number
         AstNode* temp = new AstNode(Token::TokenType::NUMBER, currentToken->text);
+        nodes.push_back(temp);
         return temp;
     } else {
         std::cout << "Unexpected token at line " << tokens[current_token_index]->line
