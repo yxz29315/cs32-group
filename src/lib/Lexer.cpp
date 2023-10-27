@@ -22,7 +22,8 @@ void Lexer::readTokens(std::string inputStr) {
 
         if (!isspace(currentChar)) {
             if (currentChar == '(' || currentChar == ')' || currentChar == '+' ||
-                currentChar == '-' || currentChar == '*' || currentChar == '/') {
+                currentChar == '-' || currentChar == '*' || currentChar == '/' ||
+                currentChar == '=') {
                     Token x;
                     x.line = nextLine;
                     x.column = nextCol;
