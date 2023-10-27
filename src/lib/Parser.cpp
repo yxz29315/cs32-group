@@ -8,7 +8,7 @@
 
 // Define an abstract syntax tree (AST) node
 
-Parser::Parser(vector<Token*>& tokens) : tokens(tokens), rootNode(nullptr) {}
+Parser::Parser(queue<Token>& tokens) : tokens(tokens), rootNode(nullptr) {}
 Parser::~Parser()
 {
     delete rootNode;

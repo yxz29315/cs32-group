@@ -6,33 +6,25 @@
 #include "lib/Lexer.h"
 #include "lib/Parser.h"
 
-// Define an abstract syntax tree (AST) node
-
-
 int main() {
-    std::string input;
-    std::string line;
+    char ch;
+	std::string str = "\0";
 
-    // Read input from standard input
-    while (std::getline(std::cin, line)) {
-        input += line + '\n';
-    }
+	while (std::cin.get(ch)){
+		str += ch;
+	}
 
-    std::istringstream inputStream(input);
-    Lexer lexer(inputStream);
-
-    // Initialize a vector to store tokens
+    Lexer lexer;
 
     // Tokenize the input
-    lexer.readTokens();
-    std::vector<Token*> vect = lexer.returnTokens();
+    lexer.readTokens(str);
+    std::queue<Token> tokens = lexer.getTokens();
 
     // Create a parser with the token vector
-    Parser parser(vect);
+    Parser parser(tokens);
 
     // Parse the S-expression
     AstNode* root = parser.parseSExpression();
-
 
     // Evaluate the AST
     double result = evaluate(root);

@@ -9,7 +9,7 @@ using namespace std;
 
 class Parser {
 public:
-    Parser(vector<Token*>& tokens);
+    Parser(queue<Token>& tokens);
     AstNode* parse();
     ~Parser();
     
@@ -20,7 +20,7 @@ public:
     AstNode* parseExpression();
 
 private:
-    vector<Token*> tokens;
+    queue<Token> tokens;
     size_t current_token_index;
     AstNode* rootNode;
 };
