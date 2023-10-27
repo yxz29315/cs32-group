@@ -53,7 +53,10 @@
         "algorithm": "cpp",
         "queue": "cpp",
         "set": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "unordered_map": "cpp",
+        "list": "cpp",
+        "span": "cpp"
     },
     "cmake.configureOnOpen": false
 }

@@ -1,115 +1,48 @@
-#include <iostream>
-#include <vector>
-#include <stack>
-#include <sstream>
-
-#include "Lexer.h"
 #include "Parser.h"
 
-// Define an abstract syntax tree (AST) node
-
-Parser::Parser(queue<Token>& tokens) : tokens(tokens), rootNode(nullptr) {}
-Parser::~Parser()
+Parser::Parser(queue<Token> x)
 {
-    delete rootNode;
-    for (Token* t : tokens)
+    while (x.front().text != "END")
+        makeTree(x);
+}
+void Parser::makeTree(queue<Token>& x)
+{
+
+    AstNode* root;
+        if (x.front().text == "(")
+        {
+            root = SExpress(x);
+        }
+        else if (isdigit(x.front().text.at(0)))
+        {
+            Num* numTree = new Num(stold(x.front().text));
+            root = numTree;
+            x.pop();
+        }
+        else
+        {
+            error(x.front().line, x.front().column, x.front().text);
+        }
+        heads.push(root);
+
+}
+
+AstNode* Parser::SExpress(queue<Token>& x)
+{
+    x.pop();
+    AstNode* root;
+    if (x.front().text == "+" || x.front().text == "-" || x.front().text == "*" || x.front().text == "/")
     {
-        delete t;
+        root = ops(x);
     }
-    tokens.clear();
-}
-
-// Function to parse an expression
-AstNode* Parser::parseExpression() {
-    current_token_index = 0;
-    Token* currentToken = tokens[current_token_index];
-
-    if (currentToken->text == "(") {
-        current_token_index++; // Consume the opening parenthesis
-        AstNode* leftExpr = parseExpression();
-
-        if (leftExpr == nullptr) {
-            std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-                 exit(2); // Parse error
-        }
-
-        currentToken = tokens[current_token_index];
-
-        if (currentToken->type == Token::TokenType::OPERATOR) {
-            current_token_index++; // Consume the operator
-            AstNode* rightExpr = parseExpression();
-
-            if (rightExpr == nullptr) {
-                std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-                  exit(2); // Parse error
-            }
-
-            currentToken = tokens[current_token_index];
-            if (currentToken->text == ")") {
-                current_token_index++; // Consume the closing parenthesis
-                AstNode* rootNode = new AstNode(Token::TokenType::OPERATOR, currentToken->text);
-                rootNode->left = leftExpr;
-                rootNode->right = rightExpr;
-                return rootNode;
-            } else {
-                std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-                 exit(2); // Parse error
-            }
-        } else if (currentToken->text == ")") {
-            current_token_index++; // Consume the closing parenthesis
-            return leftExpr; // Return the expression within parentheses
-        } else {
-            std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-        exit(2); // Parse error
-        }
-    } else if (currentToken->type == Token::TokenType::NUMBER) {
-        current_token_index++; // Consume the number
-        AstNode* temp = new AstNode(Token::TokenType::NUMBER, currentToken->text);
-        return temp;
-    } else {
-        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-        exit(2); // Parse error
+    else 
+    {
+        error(x.front().line, x.front().column, x.front().text);
     }
-}
-
-// Function to parse an S-expression
-AstNode* Parser::parseSExpression() {
-    // A top-level S-expression should contain exactly one expression
-    AstNode* expr = parseExpression();
-
-    // Check if there are extra tokens after the S-expression
-    if (tokens[current_token_index]->type != Token::TokenType::END) {
-        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-        exit(2); // Parse error
+    if (x.front().text != ")")
+    {
+        error(x.front().line, x.front().column, x.front().text);
     }
-
-    return expr;
-}
-
-AstNode* Parser::parse()
-{
-    // Parse the S-expression
-    AstNode* root = parseSExpression();
-
-    if (root == nullptr) {
-        // Handle parse errors
-        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
-                  << " column " << tokens[current_token_index]->column << ": "
-                  << tokens[current_token_index]->text << std::endl;
-        exit(2);
-    }
-    rootNode = root;
+    x.pop();
     return root;
 }

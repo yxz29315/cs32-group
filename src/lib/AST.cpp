@@ -1,63 +1,98 @@
-#include <iostream>
-#include <cctype>
-#include <string>
-#include <vector>
-#include <sstream> // Include this header for std::istringstream
-#include <vector>
 #include "AST.h"
-using namespace std;
 
-AstNode::~AstNode()
+Num::Num(double x)
 {
-    delete left;
-    delete right;
+    val = x;
 }
 
-// Function to evaluate an AST node
-double evaluate(AstNode* node) {
-    if (!node)
+double Num::evaluate(unordered_map<string, double>& list) const {
+    return val;
+}
+
+void Num::printInfix() const {
+    cout << val;
+}
+
+Op::Op(char y)
+{
+    op = y;
+}
+
+void Op::addNode(AstNode* x)
+{
+    nodes.push_back(x);
+}
+
+double Op::evaluate(unordered_map<string, double>& list) const {
+    double ans;
+    switch(op)
     {
-        return 0;
-    }
-    if (node->type == Token::TokenType::NUMBER) {
-        return std::stod(node->text);
-    } else {
-        double leftValue = evaluate(node->left);
-        double rightValue = evaluate(node->right);
-        if (node->text == "+") {
-            return leftValue + rightValue;
-        } else if (node->text == "-") {
-            return leftValue - rightValue;
-        } else if (node->text == "*") {
-            return leftValue * rightValue;
-        } else if (node->text == "/") {
-            if (rightValue != 0) {
-                return leftValue / rightValue;
-            } else {
-                std::cout << "Runtime error: division by zero." << std::endl;
-                exit(3);
+        case '+':
+            for (AstNode* x: nodes)
+            {
+                ans += x->evaluate(list);
             }
-        }
+            break;
+        case '-':
+            for (AstNode* x: nodes)
+            {
+                ans -= x->evaluate(list);
+            }
+            break;
+
+        case '*':
+            for (AstNode* x: nodes)
+            {
+                ans *= x->evaluate(list);
+            }
+            break;
+        case '/':
+            for (AstNode* x: nodes)
+            {
+                if (x->evaluate(list) == 0)
+                {
+                    throw runtime_error("Runtime error: division by zero.");
+                }
+                ans /= x->evaluate(list);
+            }
     }
-    return 0.0;
+    return ans;
 }
 
-// Function to print an AST in infix form
-void printInfix(AstNode* node, bool printParentheses) {
-    if (!node)
+void Op::printInfix() const
+{
+    if (nodes.empty())
         return;
-    if (node->type == Token::TokenType::NUMBER) {
-        std::cout << node->text;
-    } else {
-        if (printParentheses) {
-            std::cout << "(";
+    cout << '(';
+    for (AstNode* x: nodes)
+    {
+        if (x == nodes[0])
+            x->printInfix();
+        else
+        {
+            cout << ' ' << op << ' ';
+            x->printInfix();
         }
-        printInfix(node->left, true);
-        std::cout << " " << node->text << " ";
-        printInfix(node->right, true);
-        if (printParentheses) {
-            std::cout << ")";
-        }
-
     }
+    cout << ')';
+}
+
+NodeKey::NodeKey(string x)
+{
+    key = x;
+}
+
+double NodeKey::evaluate(unordered_map<string, double>& list) const {
+    if (list.find(key) == list.end())
+        throw runtime_error("Runtime error: unknown key " + key);
+    return list[key];   
+}
+
+void NodeKey::printInfix() const {
+    cout << key;
+}
+
+string NodeKey::getKey()
+{
+    return key;
 }
