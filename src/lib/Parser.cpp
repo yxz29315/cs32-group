@@ -28,8 +28,16 @@ Parser::~Parser()
 
 // Function to parse an expression
 AstNode* Parser::parseExpression() {
-    current_token_index = 0;
-    Token* currentToken = tokens[current_token_index];
+    Token* currentToken;
+    if (current_token_index < tokens.size())
+        currentToken = tokens[current_token_index];
+    else
+    {
+        std::cout << "Unexpected token at line " << tokens[current_token_index]->line
+        << " column " << tokens[current_token_index]->column << ": "
+        << tokens[current_token_index]->text << std::endl;
+        exit(2); // Parse error
+    }
 
     if (currentToken->type == Token::TokenType::LEFT_PAREN) {
         current_token_index++; // Consume the opening parenthesis
