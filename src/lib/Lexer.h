@@ -1,14 +1,20 @@
-// lexer.h
-#pragma once
+#ifndef LEXER_H
+#define LEXER_H
 
-#include <string>
+#include "Token.h"
+
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
+#include <iomanip>
+#include <queue>
+#include <set>
 
 struct Token {
     std::string text;
     int line;
     int column;
-    double value;
     enum class TokenType {
         LEFT_PAREN,
         RIGHT_PAREN,
@@ -23,10 +29,10 @@ public:
     Lexer(std::istream& input);
     void readTokens();
     void printTokens();
-    std::vector<Token*> returnTokens();
+    std::queue<Token> returnTokens();
 
 private:
     std::istream& input;
-    std::vector<Token> tokens;
+    std::queue<Token> tokens;
 };
 
