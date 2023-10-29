@@ -14,12 +14,13 @@ class Parser {
 public:
     Parser(queue<Token> x);
     void makeTree (queue<Token>& x);
-    AstNode* popHead();
+    AstNode* pop();
     bool isEmpty();
+    queue<AstNode*> getHeads();
 
 private: 
     queue<AstNode*> heads;
-    void error(int l, int c, string text) const;
+    void pError(int l, int c, string text);
     AstNode* SExpress(queue<Token>& x);
     AstNode* ops(queue<Token>& x);
     AstNode* evalExpress(queue<Token>& x);

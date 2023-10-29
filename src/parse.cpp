@@ -15,6 +15,7 @@ int main() {
 	}
 
     Lexer lexer;
+    unordered_map<string, double> list;
 
     // Tokenize the input
     lexer.readTokens(str);
@@ -22,19 +23,18 @@ int main() {
 
     // Create a parser with the token vector
     Parser parser(tokens);
-
-    // Parse the S-expression
-    AstNode* root = parser.parseSExpression();
-
-    // Evaluate the AST
-    double result = evaluate(root);
-    // Print the AST in infix form
-    printInfix(root, true);
-    std::cout << std::endl;
-
-    // Print the result
-    std::cout << result << std::endl;
-    delete root;
-
+    queue<AstNode*> temp = parser.getHeads();
+    while (temp.size() != 0)
+    {
+        AstNode* root = parser.pop();
+        root->printInfix();
+        cout << endl;
+        double result = root->evaluate(list);
+        cout << result << endl;
+    }
     return 0;
+
+
+   
+   
 }
