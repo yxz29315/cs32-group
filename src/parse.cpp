@@ -38,6 +38,7 @@ int main() {
         }
         catch(const runtime_error& error)
         {
+            delete root;
             cout << error.what() << '\n';
             exit(3);
         }
