@@ -118,12 +118,13 @@ AstNode* Parser::assign(deque<Token>& x)
 
 AstNode* Parser::ops(deque<Token>& x)
 {
+    x.pop_front(); // consume left paren
     Op* root = new Op(x.front().text[0]);
     AstNode* temp;
     Num* temp2;
     int counter = 0; // count how many kids there are, throw error if 0
 
-    x.pop_front(); // consume left paren
+
     while (x.front().type != Token::TokenType::OPERATOR)
     {
         if (x.front().text == "(")
