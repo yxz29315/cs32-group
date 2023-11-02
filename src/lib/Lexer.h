@@ -16,7 +16,8 @@ struct Token {
     enum class TokenType {
         OPERATOR,
         NUMBER,
-        END
+        END,
+        IDENTIFIER
     } type;
 };
 

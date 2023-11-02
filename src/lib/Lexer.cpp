@@ -4,13 +4,13 @@
 #include <iostream>
 #include <sstream>
 
+using namespace std;
 
-void Lexer::readTokens(std::string inputStr) {
-    std::istringstream stream(inputStr);
+void Lexer::readTokens(string inputStr) {
+    istringstream stream(inputStr);
     double nextLine = 1;
     double nextCol = 1;
     char currentChar;
-    std::string temp;
 
     while (stream.get(currentChar)) {
 
@@ -22,7 +22,7 @@ void Lexer::readTokens(std::string inputStr) {
 
         if (!isspace(currentChar)) {
             if (currentChar == '(' || currentChar == ')' || currentChar == '+' ||
-                currentChar == '-' || currentChar == '*' || currentChar == '/') {
+                currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '=') {
                     Token x;
                     x.line = nextLine;
                     x.column = nextCol;
@@ -33,14 +33,14 @@ void Lexer::readTokens(std::string inputStr) {
             }
             else if (isdigit(currentChar)) {
                 bool hasDec = false;
-                std::string temp2 = "";
+                string temp2 = "";
                 temp2 += currentChar;
                 int col1 = nextCol;
 
                 while ((isdigit(stream.peek()) || stream.peek() == '.')) {
                     if (stream.peek() == '.') {
                         if (hasDec) {
-                            std::cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
+                            cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
                             exit(1);
                         }
                         else {
@@ -54,17 +54,38 @@ void Lexer::readTokens(std::string inputStr) {
                 }
 
                 if (temp2.back() == '.') {
-                    std::cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
+                    cout << "Syntax error on line " << nextLine << " column " << nextCol + 1 << ".\n";
                     exit(1);
                 }
                 Token y;
                 y.line = nextLine;
                 y.column = col1;
                 y.text = temp2;
+                y.type = Token::TokenType::NUMBER;
                 tokens.push(y);
             }
+            else if (isalpha(currentChar) || currentChar == '_')
+            {
+                string temp2(1,currentChar);
+                int col1 = nextCol;
+                while (isalpha(stream.peek()) || isdigit(stream.peek()) || stream.peek() == '_')
+                {
+                    char next;
+                    stream.get(next);
+                    temp2 += next;
+                    nextCol++;
+                }
+                Token z;
+                z.line = nextLine;
+                z.column = col1;
+                z.text = temp2;
+                z.type = Token::TokenType::NUMBER;
+                tokens.push(z);
+
+
+            }
             else {
-                std::cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
+                cout << "Syntax error on line " << nextLine << " column " << nextCol << ".\n";
                 exit(1);
             }
         }
@@ -84,12 +105,12 @@ void Lexer::printTokens() {
     
     while (!tokens.empty()) {
         Token cur = tokens.front();
-        std::cout << std::setfill(' ')  << std::setw(4) << std::right << cur.line << std::setfill(' ')
-        << std::setw(5) << std::right << cur.column << "  " << cur.text << std::endl;
+        cout << setfill(' ')  << setw(4) << right << cur.line << setfill(' ')
+        << setw(5) << right << cur.column << "  " << cur.text << endl;
         tokens.pop();
     }
 }
 
-std::queue<Token> Lexer::getTokens() {
+queue<Token> Lexer::getTokens() {
     return tokens;
 }
