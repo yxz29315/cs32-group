@@ -20,7 +20,7 @@ void Lexer::readTokens(string inputStr) {
             continue;
         }
 
-        if (!isspace(currentChar)) {
+        if (!isspace(currentChar)) { // checking for space, if not check for operators
             if (currentChar == '(' || currentChar == ')' || currentChar == '+' ||
                 currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '=') {
                     Token x;
@@ -29,9 +29,9 @@ void Lexer::readTokens(string inputStr) {
                     x.type = Token::TokenType::OPERATOR;
                     x.text = "";
                     x.text += currentChar;
-                    tokens.push(x);
+                    tokens.push_back(x);
             }
-            else if (isdigit(currentChar)) {
+            else if (isdigit(currentChar)) { // Checking for numbers
                 bool hasDec = false;
                 string temp2 = "";
                 temp2 += currentChar;
@@ -62,9 +62,9 @@ void Lexer::readTokens(string inputStr) {
                 y.column = col1;
                 y.text = temp2;
                 y.type = Token::TokenType::NUMBER;
-                tokens.push(y);
+                tokens.push_back(y);
             }
-            else if (isalpha(currentChar) || currentChar == '_')
+            else if (isalpha(currentChar) || currentChar == '_') // Checking for identifiers
             {
                 string temp2(1,currentChar);
                 int col1 = nextCol;
@@ -80,7 +80,7 @@ void Lexer::readTokens(string inputStr) {
                 z.column = col1;
                 z.text = temp2;
                 z.type = Token::TokenType::NUMBER;
-                tokens.push(z);
+                tokens.push_back(z);
 
 
             }
@@ -97,7 +97,7 @@ void Lexer::readTokens(string inputStr) {
     end.column = nextCol;
     end.type = Token::TokenType::END;
     end.text = "END";
-    tokens.push(end);
+    tokens.push_back(end);
 }
 
 
@@ -107,10 +107,10 @@ void Lexer::printTokens() {
         Token cur = tokens.front();
         cout << setfill(' ')  << setw(4) << right << cur.line << setfill(' ')
         << setw(5) << right << cur.column << "  " << cur.text << endl;
-        tokens.pop();
+        tokens.pop_front();
     }
 }
 
-queue<Token> Lexer::getTokens() {
+deque<Token> Lexer::getTokens() {
     return tokens;
 }

@@ -19,11 +19,11 @@ int main() {
 
     // Tokenize the input
     lexer.readTokens(str);
-    std::queue<Token> tokens = lexer.getTokens();
+    std::deque<Token> tokens = lexer.getTokens();
 
     // Create a parser with the token vector
     Parser parser(tokens);
-    queue<AstNode*> temp = parser.getHeads();
+    deque<AstNode*> temp = parser.getHeads();
     while (temp.size() != 0)
     {
         AstNode* root = parser.pop();

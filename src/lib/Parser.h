@@ -3,7 +3,7 @@
 #include <vector>
 #include "AST.h"
 #include "Lexer.h"
-#include <queue>
+#include <deque>
 #include <set>
 
 using namespace std;
@@ -12,18 +12,19 @@ using namespace std;
 
 class Parser {
 public:
-    Parser(queue<Token> x);
-    void makeTree (queue<Token>& x);
+    Parser(deque<Token> x);
+    ~Parser();
+    void makeTree (deque<Token>& x);
     AstNode* pop();
     bool isEmpty();
-    queue<AstNode*> getHeads();
+    deque<AstNode*> getHeads();
 
 private: 
-    queue<AstNode*> heads;
+    deque<AstNode*> heads;
     void pError(int l, int c, string text);
-    AstNode* SExpress(queue<Token>& x);
-    AstNode* ops(queue<Token>& x);
-    AstNode* evalExpress(queue<Token>& x);
+    AstNode* SExpress(deque<Token>& x);
+    AstNode* ops(deque<Token>& x);
+    AstNode* assign(deque<Token>& x);
 
 
 };

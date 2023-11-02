@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <iomanip>
-#include <queue>
+#include <deque>
 #include <set>
 
 struct Token {
@@ -25,10 +25,10 @@ class Lexer {
 public:
     void readTokens(std::string inputString);
     void printTokens();
-    std::queue<Token> getTokens();
+    std::deque<Token> getTokens();
 
 private:
-    std::queue<Token> tokens;
+    std::deque<Token> tokens;
 };
 
 #endif

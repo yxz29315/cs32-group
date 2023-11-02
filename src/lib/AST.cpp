@@ -52,6 +52,7 @@ double Op::evaluate(unordered_map<string, double>& list) const {
                 if (x->evaluate(list) == 0)
                 {
                     throw runtime_error("Runtime error: division by zero.");
+                    exit(3);
                 }
                 ans /= x->evaluate(list);
             }
