@@ -12,9 +12,10 @@ using namespace std;
 
 class Parser {
 public:
-    Parser(deque<Token> x);
+    Parser();
     ~Parser();
     void makeTree (deque<Token>& x);
+    void makeTrees(deque<Token>& x);
     AstNode* pop();
     bool isEmpty();
     deque<AstNode*> getHeads();

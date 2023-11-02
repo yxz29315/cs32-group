@@ -22,7 +22,8 @@ int main() {
     std::deque<Token> tokens = lexer.getTokens();
 
     // Create a parser with the token vector
-    Parser parser(tokens);
+    Parser parser;
+    parser.makeTrees(tokens);
     deque<AstNode*> temp = parser.getHeads();
     while (temp.size() != 0)
     {

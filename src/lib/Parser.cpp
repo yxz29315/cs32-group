@@ -1,10 +1,9 @@
 #include "Parser.h"
 
 using namespace std;
-Parser::Parser(deque<Token> x)
+
+Parser::Parser()
 {
-    while (x.front().type != Token::TokenType::END)
-        makeTree(x);
 }
 
 Parser::~Parser()
@@ -13,6 +12,14 @@ Parser::~Parser()
     {
         AstNode* temp = pop();
         delete temp;
+    }
+}
+
+void Parser::makeTrees(deque<Token>& x)
+{
+    while (x.front().type != Token::TokenType::END)
+    {
+        makeTree(x);
     }
 }
 void Parser::makeTree(deque<Token>& x)
