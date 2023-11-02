@@ -56,6 +56,13 @@ double Op::evaluate(unordered_map<string, double>& list) const {
                 }
                 ans /= x->evaluate(list);
             }
+            break;
+        case '=':
+            ans = nodes[nodes.size()-1]->evaluate(list);
+            for (size_t i = 0; i < nodes.size() - 1; i++)
+            {
+                list[nodes[i]->getKey()] = ans;
+            }
     }
     return ans;
 }
