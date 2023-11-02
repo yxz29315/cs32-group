@@ -22,7 +22,11 @@ class Num : public AstNode {
         Num(double x);
         virtual double evaluate(unordered_map<string, double>& list) const;
         virtual void printInfix() const;
-        virtual string getKey();
+        virtual string getKey() 
+        {
+            throw runtime_error("Num called getKey()");
+            return "";
+        };
     private:
         double val;
        
@@ -34,7 +38,11 @@ class Op : public AstNode {
         virtual double evaluate(unordered_map<string, double>& list) const;
         virtual void printInfix() const;
         void addNode (AstNode* x);
-        virtual string getKey();
+        virtual string getKey()
+        {
+            throw runtime_error("Op called getKey()");
+            return "";
+        };
         ~Op()
         {
             for (AstNode* x: nodes)
