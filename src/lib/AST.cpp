@@ -85,7 +85,10 @@ NodeKey::NodeKey(string x)
 
 double NodeKey::evaluate(unordered_map<string, double>& list) const {
     if (list.find(key) == list.end())
+    {
         throw runtime_error("Runtime error: unknown key " + key);
+        exit(3);
+    }
     return list[key];   
 }
 

@@ -74,8 +74,8 @@ AstNode* Parser::assign(deque<Token>& x)
     NodeKey* temp;
     int counter = 0;
     x.pop_front();
-
-    
+    if (x.front().type != Token::TokenType::IDENTIFIER)
+        pError(x.front().line, x.front().column, x.front().text);
     while (x.front().type == Token::TokenType::IDENTIFIER)
     {
         temp = new NodeKey(x.front().text);
@@ -83,7 +83,10 @@ AstNode* Parser::assign(deque<Token>& x)
         x.pop_front();
         counter++;
     }
-
+    if (counter == 0)
+    {
+        pError(x.front().line, x.front().column, x.front().text);
+    }
 
     if (x.front().type == Token::TokenType::NUMBER)
     {
@@ -159,3 +162,8 @@ void Parser::pError(int l, int c, string text)
 	exit(2);
 }
 
+void Parser::iError(string text)
+{
+    throw runtime_error("unknown identifier " + text);
+	exit(3);
+}

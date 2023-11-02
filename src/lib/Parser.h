@@ -22,6 +22,7 @@ public:
 private: 
     deque<AstNode*> heads;
     void pError(int l, int c, string text);
+    void iError(string text);
     AstNode* SExpress(deque<Token>& x);
     AstNode* ops(deque<Token>& x);
     AstNode* assign(deque<Token>& x);
