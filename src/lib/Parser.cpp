@@ -14,7 +14,7 @@ void Parser::makeTree(queue<Token>& x)
         {
             root = SExpress(x);
         }
-        else if (isdigit(x.front().text[0]))
+        else if (x.front().type == Token::TokenType::NUMBER)
         {
             Num* numTree = new Num(stold(x.front().text));
             root = numTree;
@@ -32,7 +32,7 @@ AstNode* Parser::SExpress(queue<Token>& x)
 {
     x.pop();
     AstNode* root;
-    if (x.front().text == "+" || x.front().text == "-" || x.front().text == "*" || x.front().text == "/")
+    if (x.front().type == Token::TokenType::OPERATOR)
     {
         root = ops(x);
     }
@@ -53,7 +53,6 @@ AstNode* Parser::ops(queue<Token>& x)
     Op* root = new Op(x.front().text[0]);
     AstNode* temp;
     Num* temp2;
-    NodeKey* temp3;
     int counter; // count how many kids there are, throw error if 0 or 1
 
     x.pop(); // consume left paren
@@ -69,7 +68,7 @@ AstNode* Parser::ops(queue<Token>& x)
         else 
         {
             temp2 = new Num(stold(x.front().text));
-            root->addNode(temp);
+            root->addNode(temp2);
             x.pop();
             counter++;
         }
