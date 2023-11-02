@@ -29,8 +29,19 @@ int main() {
         AstNode* root = parser.pop();
         root->printInfix();
         cout << endl;
-        double result = root->evaluate(list);
-        cout << result << endl;
+        try
+        {
+            double result = root->evaluate(list);
+            delete root;
+            cout << result << endl; 
+        }
+        catch(const runtime_error& error)
+        {
+            cout << error.what() << '\n';
+            exit(3);
+        }
+        
+        
     }
     return 0;
 
