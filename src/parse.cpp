@@ -23,7 +23,14 @@ int main() {
 
     // Create a parser with the token vector
     Parser parser;
-    parser.makeTrees(tokens);
+    try {
+        parser.makeTrees(tokens);
+    }
+    catch (const runtime_error& error)
+    {
+        cout << error.what() << '\n';
+        exit(2);
+    }
     deque<AstNode*> temp = parser.getHeads();
     while (temp.size() != 0)
     {
