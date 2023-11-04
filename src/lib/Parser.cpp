@@ -125,7 +125,7 @@ AstNode* Parser::ops(deque<Token>& x)
     int counter = 0; // count how many kids there are, throw error if 0
 
 
-    while (x.front().type != Token::TokenType::OPERATOR)
+    while (x.front().type != Token::TokenType::OPERATOR || x.front().text == "(")
     {
         if (x.front().text == "(")
         {
