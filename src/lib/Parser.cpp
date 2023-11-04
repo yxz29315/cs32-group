@@ -51,17 +51,17 @@ void Parser::makeTree(deque<Token>& x)
 
 AstNode* Parser::SExpress(deque<Token>& x)
 {
-    x.pop_front();
+    x.pop_front(); // pop open parent
     AstNode* root = nullptr;
     if (x.front().text == "=")
     {
         root = assign(x);
     }
-    if (x.front().type == Token::TokenType::OPERATOR)
+    else if (x.front().type == Token::TokenType::OPERATOR)
     {
         root = ops(x);
     }
-    else 
+    else if (x.front().type == Token::TokenType::IDENTIFIER)
     {
         pError(x.front().line, x.front().column, x.front().text);
     }
@@ -125,14 +125,21 @@ AstNode* Parser::ops(deque<Token>& x)
     int counter = 0; // count how many kids there are, throw error if 0
 
 
-    while (x.front().type != Token::TokenType::OPERATOR || x.front().text == "(")
+    while (x.front().type != Token::TokenType::END)
     {
         if (x.front().text == "(")
         {
             temp = SExpress(x);
             root->addNode(temp);
-            x.pop_front();
             counter++;
+            x.pop_front();
+        }
+        else if (x.front().type == Token::TokenType::OPERATOR)
+        {
+            temp = ops(x);
+            root->addNode(temp);
+            counter++;
+             x.pop_front();
         }
         else 
         {
@@ -141,8 +148,7 @@ AstNode* Parser::ops(deque<Token>& x)
             x.pop_front();
             counter++;
         }
-        if (x.front().type == Token::TokenType::END)
-            break;
+
     }
     if (counter == 0)
         pError(x.front().line, x.front().column, x.front().text);
