@@ -61,10 +61,6 @@ AstNode* Parser::SExpress(deque<Token>& x)
     {
         root = ops(x);
     }
-    else if (x.front().type == Token::TokenType::IDENTIFIER)
-    {
-        pError(x.front().line, x.front().column, x.front().text);
-    }
     if (x.front().text != ")")
     {
         pError(x.front().line, x.front().column, x.front().text);
@@ -125,7 +121,7 @@ AstNode* Parser::ops(deque<Token>& x)
     int counter = 0; // count how many kids there are, throw error if 0
 
 
-    while (x.front().type != Token::TokenType::END)
+    while (x.front().text == "(" || x.front().type != Token::TokenType::END)
     {
         if (x.front().text == "(")
         {
