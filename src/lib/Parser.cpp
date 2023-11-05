@@ -60,6 +60,14 @@ AstNode *Parser::SExpress(deque<Token> &x)
     {
         root = ops(x);
     }
+    else if (x.front().type == Token::TokenType::NUMBER)
+    {
+        root = new Num(stold(x.front().text));
+    }
+    else if (x.front().type == Token::TokenType::IDENTIFIER)
+    {
+        root = new NodeKey(x.front().text);
+    }
     if (x.front().text != ")")
     {
         pError(x.front().line, x.front().column, x.front().text);
