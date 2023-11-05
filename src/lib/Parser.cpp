@@ -43,8 +43,7 @@ void Parser::makeTree(deque<Token> &x)
     }
     else
     {
-        cout << "make tree error";
-        //pError(x.front().line, x.front().column, x.front().text);
+        pError(x.front().line, x.front().column, x.front().text);
     }
     heads.push_back(root);
 }
@@ -63,7 +62,8 @@ AstNode *Parser::SExpress(deque<Token> &x)
     }
     if (x.front().text != ")")
     {
-        pError(x.front().line, x.front().column, x.front().text);
+        cout << "s express error";
+        //pError(x.front().line, x.front().column, x.front().text);
     }
     x.pop_front();
     return root;
@@ -144,7 +144,8 @@ AstNode *Parser::ops(deque<Token> &x)
         }
     }
     if (counter == 0)
-        pError(x.front().line, x.front().column, x.front().text);
+        cout << "ops error";
+        //pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
 
