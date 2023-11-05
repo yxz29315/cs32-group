@@ -75,6 +75,7 @@ AstNode* Parser::assign(deque<Token>& x)
     Op* root = new Op('=');
     NodeKey* temp;
     int counter = 0;
+    x.pop_front();
     if (x.front().type != Token::TokenType::IDENTIFIER)
         pError(x.front().line, x.front().column, x.front().text);
     while (x.front().type == Token::TokenType::IDENTIFIER)
@@ -116,6 +117,7 @@ AstNode* Parser::ops(deque<Token>& x)
     Op* root = new Op(x.front().text[0]);
     AstNode* temp;
     Num* temp2;
+    x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
 
