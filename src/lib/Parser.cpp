@@ -143,8 +143,7 @@ AstNode *Parser::ops(deque<Token> &x)
         }
     }
     if (counter == 0)
-        cout << "no children" ;
-        //pError(x.front().line, x.front().column, x.front().text);
+        pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
 

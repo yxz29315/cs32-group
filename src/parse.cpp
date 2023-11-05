@@ -40,11 +40,13 @@ int main() {
         try
         {
             double result = root->evaluate(list);
+            delete root;
             root = nullptr;
             cout << result << endl; 
         }
         catch(const runtime_error& error)
         {
+            delete root;
             root = nullptr;
             cout << error.what() << '\n';
             exit(3);
