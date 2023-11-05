@@ -29,12 +29,6 @@ void Parser::makeTree(deque<Token> &x)
     {
         root = SExpress(x);
     }
-    else if (x.front().type == Token::TokenType::OPERATOR)
-    {
-        Op *opTree = new Op(x.front().text[0]);
-        root = opTree;
-        x.pop_front();
-    }
     else if (x.front().type == Token::TokenType::NUMBER)
     {
         Num *numTree = new Num(stold(x.front().text));
@@ -149,7 +143,8 @@ AstNode *Parser::ops(deque<Token> &x)
         }
     }
     if (counter == 0)
-        pError(x.front().line, x.front().column, x.front().text);
+        cout << "no children" ;
+        //pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
 
