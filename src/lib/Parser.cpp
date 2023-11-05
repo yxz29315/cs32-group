@@ -10,49 +10,48 @@ Parser::~Parser()
 {
     while (heads.size() != 0)
     {
-        AstNode* temp = pop();
+        AstNode *temp = pop();
         delete temp;
     }
 }
 
-void Parser::makeTrees(deque<Token>& x)
+void Parser::makeTrees(deque<Token> &x)
 {
     while (x.front().type != Token::TokenType::END)
     {
         makeTree(x);
     }
 }
-void Parser::makeTree(deque<Token>& x)
+void Parser::makeTree(deque<Token> &x)
 {
-    AstNode* root = nullptr;
-        if (x.front().text == "(")
-        {
-            root = SExpress(x);
-        }
-        else if (x.front().type == Token::TokenType::NUMBER)
-        {
-            Num* numTree = new Num(stold(x.front().text));
-            root = numTree;
-            x.pop_front();
-        }
-        else if (x.front().type == Token::TokenType::IDENTIFIER)
-        {
-            NodeKey* id = new NodeKey(x.front().text);
-            root = id;
-            x.pop_front();
-        }
-        else
-        {
-            pError(x.front().line, x.front().column, x.front().text);
-        }
-        heads.push_back(root);
-
+    AstNode *root = nullptr;
+    if (x.front().text == "(")
+    {
+        root = SExpress(x);
+    }
+    else if (x.front().type == Token::TokenType::NUMBER)
+    {
+        Num *numTree = new Num(stold(x.front().text));
+        root = numTree;
+        x.pop_front();
+    }
+    else if (x.front().type == Token::TokenType::IDENTIFIER)
+    {
+        NodeKey *id = new NodeKey(x.front().text);
+        root = id;
+        x.pop_front();
+    }
+    else
+    {
+        pError(x.front().line, x.front().column, x.front().text);
+    }
+    heads.push_back(root);
 }
 
-AstNode* Parser::SExpress(deque<Token>& x)
+AstNode *Parser::SExpress(deque<Token> &x)
 {
     x.pop_front(); // pop open parent
-    AstNode* root = nullptr;
+    AstNode *root = nullptr;
     if (x.front().text == "=")
     {
         root = assign(x);
@@ -69,11 +68,11 @@ AstNode* Parser::SExpress(deque<Token>& x)
     return root;
 }
 
-AstNode* Parser::assign(deque<Token>& x)
+AstNode *Parser::assign(deque<Token> &x)
 {
 
-    Op* root = new Op('=');
-    NodeKey* temp;
+    Op *root = new Op('=');
+    NodeKey *temp;
     int counter = 0;
     x.pop_front();
     if (x.front().type != Token::TokenType::IDENTIFIER)
@@ -92,34 +91,32 @@ AstNode* Parser::assign(deque<Token>& x)
 
     if (x.front().type == Token::TokenType::NUMBER)
     {
-        Num* temp2 = new Num(stold(x.front().text));
+        Num *temp2 = new Num(stold(x.front().text));
         root->addNode(temp2);
         x.pop_front();
     }
     else if (x.front().text == "(")
     {
-        AstNode* temp3 = SExpress(x);
-        root->addNode(temp3); 
+        AstNode *temp3 = SExpress(x);
+        root->addNode(temp3);
     }
     else if (counter == 0)
         pError(x.front().line, x.front().column, x.front().text);
 
-
     if (x.front().text != ")")
         pError(x.front().line, x.front().column, x.front().text);
-    
 
     return root;
 }
 
-AstNode* Parser::ops(deque<Token>& x)
+AstNode *Parser::ops(deque<Token> &x)
 {
-    Op* root = new Op(x.front().text[0]);
-    AstNode* temp;
-    Num* temp2;
+    Op *root = new Op(x.front().text[0]);
+    AstNode *temp = nullptr;
+    Num *temp2 = nullptr;
+    NodeKey* temp3 = nullptr;
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
-
 
     while (x.front().text == "(" || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER)
     {
@@ -130,37 +127,34 @@ AstNode* Parser::ops(deque<Token>& x)
             counter++;
             x.pop_front();
         }
-        else if (x.front().type == Token::TokenType::OPERATOR)
+        else if (x.front().type == Token::TokenType::IDENTIFIER)
         {
-            temp = ops(x);
-            root->addNode(temp);
+            temp3 = new NodeKey(x.front().text);
+            root->addNode(temp3);
             counter++;
-             x.pop_front();
+            x.pop_front();
         }
-        else 
+        else
         {
             temp2 = new Num(stold(x.front().text));
             root->addNode(temp2);
             x.pop_front();
             counter++;
         }
-
     }
     if (counter == 0)
         pError(x.front().line, x.front().column, x.front().text);
     return root;
-
-
 }
 
-deque<AstNode*> Parser::getHeads()
+deque<AstNode *> Parser::getHeads()
 {
     return heads;
 }
 
-AstNode* Parser::pop()
+AstNode *Parser::pop()
 {
-    AstNode* temp = heads.front();
+    AstNode *temp = heads.front();
     heads.pop_front();
     return temp;
 }
@@ -168,11 +162,11 @@ AstNode* Parser::pop()
 void Parser::pError(int l, int c, string text)
 {
     throw runtime_error("Unexpected token at line " + to_string(l) + " column " + to_string(c) + ": " + text);
-	exit(2);
+    exit(2);
 }
 
 void Parser::iError(string text)
 {
     throw runtime_error("unknown identifier " + text);
-	exit(3);
+    exit(3);
 }
