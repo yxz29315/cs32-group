@@ -84,15 +84,11 @@ void Op::printInfix() const
     if (nodes.empty())
         return;
     cout << '(';
+    nodes[0]->printInfix();
     for (AstNode *x : nodes)
-    {
-        if (x == nodes[0])
-            x->printInfix();
-        else
-        {
+    {      
             cout << ' ' << op << ' ';
             x->printInfix();
-        }
     }
     cout << ')';
 }
