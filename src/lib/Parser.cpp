@@ -24,6 +24,8 @@ void Parser::makeTrees(deque<Token> &x)
 }
 void Parser::makeTree(deque<Token> &x)
 {
+    if (x.empty())
+        return;
     AstNode *root = nullptr;
     if (x.front().text == "(")
     {
@@ -78,7 +80,6 @@ AstNode *Parser::SExpress(deque<Token> &x)
 
 AstNode *Parser::assign(deque<Token> &x)
 {
-
     Op *root = new Op('=');
     NodeKey *temp;
     int counter = 0;
