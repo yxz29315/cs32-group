@@ -70,7 +70,7 @@ AstNode *Parser::SExpress(deque<Token> &x)
         root = new NodeKey(x.front().text);
     }
     */
-    if (x.front().text != ")")
+    if (!(x.front().text == ")"))
     {
         pError(x.front().line, x.front().column, x.front().text);
     }
