@@ -105,16 +105,19 @@ AstNode *Parser::assign(deque<Token> &x)
         Num *temp2 = new Num(stold(x.front().text));
         root->addNode(temp2);
         x.pop_front();
+        if (x.front().type != Token::TokenType::RIGHTP)
+            pError(x.front().line, x.front().column, x.front().text);
     }
     else if (x.front().type == Token::TokenType::LEFTP)
     {
         AstNode *temp3 = SExpress(x);
         root->addNode(temp3);
+        x.pop_front();
     }
-    else if (counter < 2)
+    else
         pError(x.front().line, x.front().column, x.front().text);
-    if (counter != 1)    
-        if (x.front().type != Token::TokenType::RIGHTP)
+    if (counter == 1)    
+        if (x.front().type == Token::TokenType::RIGHTP)
             pError(x.front().line, x.front().column, x.front().text);
 
     return root.release();
