@@ -120,7 +120,7 @@ AstNode *Parser::ops(deque<Token> &x)
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
-    while (x.front().text == "(" || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER )
+    while (x.front().text == "(" || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER || x.front().type == Token::TokenType::OPERATOR)
     {
         if (x.front().text == "(")
         {
@@ -140,8 +140,6 @@ AstNode *Parser::ops(deque<Token> &x)
             root->addNode(temp2);
             x.pop_front();
         }
-        if (x.front().type == Token::TokenType::END)
-            break;
         counter++;
     }
     if (counter < 1)
