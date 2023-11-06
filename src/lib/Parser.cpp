@@ -56,7 +56,7 @@ AstNode *Parser::SExpress(deque<Token> &x)
     {
         root.reset(assign(x));
     }
-    else if (x.front().type == Token::TokenType::OPERATOR)
+    else if (x.front().type == Token::TokenType::OPERATOR && x.front().text != "(")
     {
         root.reset(ops(x));
     }
