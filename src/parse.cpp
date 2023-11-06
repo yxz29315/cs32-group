@@ -32,7 +32,7 @@ int main() {
         exit(2);
     }
     deque<AstNode*> temp = parser.getHeads();
-    while (temp.size() != 0)
+    while (!temp.empty())
     {
         AstNode* root = parser.pop();
         root->printInfix();
