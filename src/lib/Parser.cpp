@@ -61,16 +61,15 @@ AstNode *Parser::SExpress(deque<Token> &x)
     {
         root.reset(ops(x));
     }
-    /*
+    
     else if (x.front().type == Token::TokenType::NUMBER)
     {
-        root.assign(new Num(stold(x.front().text));
+        root = unique_ptr<Num>(new Num(stold(x.front().text)));
     }
     else if (x.front().type == Token::TokenType::IDENTIFIER)
     {
-        root = new NodeKey(x.front().text);
+        root = unique_ptr<NodeKey>(new NodeKey(x.front().text));
     }
-    */
     if (x.front().type != Token::TokenType::RIGHTP)
     {
         pError(x.front().line, x.front().column, x.front().text);
