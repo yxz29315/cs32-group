@@ -47,6 +47,10 @@ void Parser::makeTree(deque<Token> &x)
         root = id;
         x.pop_front();
     }
+    else if (x.front().type == Token::TokenType::OPERATOR)
+    {
+        root = ops(x);
+    }
     else
     {
         if (x.front().line && x.front().column && x.front().text != "")
@@ -127,8 +131,8 @@ AstNode *Parser::ops(deque<Token> &x)
 {
     unique_ptr<Op> root(new Op(x.front().text[0]));
     AstNode *temp = nullptr;
-    Num *temp2 = nullptr;
-    NodeKey* temp3 = nullptr;
+    NodeKey* temp2 = nullptr;
+    Num *temp3 = nullptr;
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
@@ -142,13 +146,13 @@ AstNode *Parser::ops(deque<Token> &x)
         }
         else if (x.front().type == Token::TokenType::IDENTIFIER)
         {
-            temp3 = new NodeKey(x.front().text);
+            temp2 = new NodeKey(x.front().text);
             root->addNode(temp3);
             x.pop_front();
         }
         else if (x.front().type == Token::TokenType::NUMBER)
         {
-            temp2 = new Num(stold(x.front().text));
+            temp3 = new Num(stold(x.front().text));
             root->addNode(temp2);
             x.pop_front();
         }
