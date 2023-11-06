@@ -17,15 +17,13 @@ Parser::~Parser()
 
 void Parser::makeTrees(deque<Token> &x)
 {
-    while (x.front().type != Token::TokenType::END)
+    while (x.front().type != Token::TokenType::END && !x.empty())
     {
         makeTree(x);
     }
 }
 void Parser::makeTree(deque<Token> &x)
 {
-    if (x.empty())
-        return;
     AstNode *root = nullptr;
     if (x.front().text == "(")
     {
