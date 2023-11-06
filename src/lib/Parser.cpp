@@ -92,27 +92,24 @@ AstNode *Parser::assign(deque<Token> &x)
         x.pop_front();
         counter++;
     }
-    if (counter == 0)
-    {
-        pError(x.front().line, x.front().column, x.front().text);
-    }
-
     if (x.front().type == Token::TokenType::NUMBER)
     {
         Num *temp2 = new Num(stold(x.front().text));
         root->addNode(temp2);
         x.pop_front();
+        counter++;
     }
     else if (x.front().text == "(")
     {
         AstNode *temp3 = SExpress(x);
         root->addNode(temp3);
+        counter++;
     }
     else if (counter == 0)
         pError(x.front().line, x.front().column, x.front().text);
-
-    if (x.front().text != ")")
-        pError(x.front().line, x.front().column, x.front().text);
+    if (counter != 1)    
+        if (x.front().text != ")")
+            pError(x.front().line, x.front().column, x.front().text);
 
     return root;
 }
@@ -150,7 +147,7 @@ AstNode *Parser::ops(deque<Token> &x)
             counter++;
         }
     }
-    if (counter < 2)
+    if (counter == 0)
         pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
