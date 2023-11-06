@@ -150,7 +150,7 @@ AstNode *Parser::ops(deque<Token> &x)
             counter++;
         }
     }
-    if (counter == 0)
+    if (counter < 2)
         pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
