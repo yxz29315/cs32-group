@@ -135,12 +135,6 @@ AstNode *Parser::ops(deque<Token> &x)
             root->addNode(temp3);
             x.pop_front();
         }
-        else if (x.front().type == Token::TokenType::OPERATOR)
-        {
-            temp = ops(x);
-            root->addNode(temp);
-            x.pop_front();
-        }
         else if (x.front().type == Token::TokenType::NUMBER)
         {
             temp2 = new Num(stold(x.front().text));
