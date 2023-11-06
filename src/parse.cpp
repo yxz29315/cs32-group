@@ -31,8 +31,8 @@ int main() {
         cout << error.what() << '\n';
         exit(2);
     }
-    deque<AstNode*> temp = parser.getHeads();
-    while (!temp.empty())
+    //deque<AstNode*> temp = parser.getHeads();
+    while (!parser.isEmpty())
     {
         AstNode* root = parser.pop();
         root->printInfix();

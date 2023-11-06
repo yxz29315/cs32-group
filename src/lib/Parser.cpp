@@ -181,3 +181,8 @@ void Parser::iError(string text)
     throw runtime_error("unknown identifier " + text);
     exit(3);
 }
+
+bool Parser::isEmpty() 
+{
+    return heads.empty();
+}
