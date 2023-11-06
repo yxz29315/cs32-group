@@ -90,22 +90,19 @@ AstNode *Parser::assign(deque<Token> &x)
         temp = new NodeKey(x.front().text);
         root->addNode(temp);
         x.pop_front();
-        counter++;
     }
     if (x.front().type == Token::TokenType::NUMBER)
     {
         Num *temp2 = new Num(stold(x.front().text));
         root->addNode(temp2);
         x.pop_front();
-        counter++;
     }
     else if (x.front().text == "(")
     {
         AstNode *temp3 = SExpress(x);
         root->addNode(temp3);
-        counter++;
     }
-    else if (counter == 0)
+    else if (counter < 2)
         pError(x.front().line, x.front().column, x.front().text);
     if (counter != 1)    
         if (x.front().text != ")")
@@ -123,20 +120,18 @@ AstNode *Parser::ops(deque<Token> &x)
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
-    while (x.front().text == "(" || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER)
+    while (x.front().text == "(" || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER )
     {
         if (x.front().text == "(")
         {
             temp = SExpress(x);
             root->addNode(temp);
-            counter++;
             x.pop_front();
         }
         else if (x.front().type == Token::TokenType::IDENTIFIER)
         {
             temp3 = new NodeKey(x.front().text);
             root->addNode(temp3);
-            counter++;
             x.pop_front();
         }
         else
@@ -144,10 +139,12 @@ AstNode *Parser::ops(deque<Token> &x)
             temp2 = new Num(stold(x.front().text));
             root->addNode(temp2);
             x.pop_front();
-            counter++;
         }
+        if (x.front().type == Token::TokenType::END)
+            break;
+        counter++;
     }
-    if (counter == 0)
+    if (counter < 1)
         pError(x.front().line, x.front().column, x.front().text);
     return root;
 }
