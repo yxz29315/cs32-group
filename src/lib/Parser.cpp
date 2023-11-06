@@ -123,7 +123,7 @@ AstNode *Parser::ops(deque<Token> &x)
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
-    while ((x.front().type == Token::TokenType::LEFTP || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER ))
+    while (x.front().type == Token::TokenType::LEFTP || x.front().type == Token::TokenType::NUMBER || x.front().type == Token::TokenType::IDENTIFIER || x.front().type == Token::TokenType::OPERATOR)
     {
         if (x.front().type == Token::TokenType::LEFTP)
         {
