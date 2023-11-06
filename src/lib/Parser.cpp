@@ -43,7 +43,8 @@ void Parser::makeTree(deque<Token> &x)
     }
     else
     {
-        pError(x.front().line, x.front().column, x.front().text);
+        if (x.front().line != NULL && x.front().column && x.front().text != "")
+            pError(x.front().line, x.front().column, x.front().text);
     }
     heads.push_back(root);
 }
