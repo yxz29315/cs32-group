@@ -51,34 +51,36 @@ void Parser::makeTree(deque<Token> &x)
 AstNode *Parser::SExpress(deque<Token> &x)
 {
     x.pop_front(); // pop open parent
-    AstNode *root = nullptr;
+    unique_ptr<AstNode> root = nullptr;
     if (x.front().text == "=")
     {
-        root = assign(x);
+        root.reset(assign(x));
     }
     else if (x.front().type == Token::TokenType::OPERATOR)
     {
-        root = ops(x);
+        root.reset(ops(x));
     }
+    /*
     else if (x.front().type == Token::TokenType::NUMBER)
     {
-        root = new Num(stold(x.front().text));
+        root.assign(new Num(stold(x.front().text));
     }
     else if (x.front().type == Token::TokenType::IDENTIFIER)
     {
         root = new NodeKey(x.front().text);
     }
+    */
     if (x.front().text != ")")
     {
         pError(x.front().line, x.front().column, x.front().text);
     }
     x.pop_front();
-    return root;
+    return root.release();
 }
 
 AstNode *Parser::assign(deque<Token> &x)
 {
-    Op *root = new Op('=');
+    unique_ptr<Op> root(new Op('='));
     NodeKey *temp;
     int counter = 0;
     x.pop_front();
@@ -107,12 +109,12 @@ AstNode *Parser::assign(deque<Token> &x)
         if (x.front().text != ")")
             pError(x.front().line, x.front().column, x.front().text);
 
-    return root;
+    return root.release();
 }
 
 AstNode *Parser::ops(deque<Token> &x)
 {
-    Op *root = new Op(x.front().text[0]);
+    unique_ptr<Op> root(new Op(x.front().text[0]));
     AstNode *temp = nullptr;
     Num *temp2 = nullptr;
     NodeKey* temp3 = nullptr;
@@ -152,7 +154,7 @@ AstNode *Parser::ops(deque<Token> &x)
     }
     if (counter < 1)
         pError(x.front().line, x.front().column, x.front().text);
-    return root;
+    return root.release();
 }
 
 deque<AstNode *> Parser::getHeads()

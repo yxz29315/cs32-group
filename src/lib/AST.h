@@ -43,14 +43,7 @@ class Op : public AstNode {
             throw runtime_error("Op called getKey()");
             return "";
         };
-        ~Op()
-        {
-            for (AstNode* x: nodes)
-            {
-                delete x;
-            }
-            nodes.clear();
-        };
+        ~Op();
         private:
             char op;
             vector<AstNode*> nodes;
