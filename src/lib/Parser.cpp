@@ -147,6 +147,8 @@ AstNode *Parser::ops(deque<Token> &x)
             root->addNode(temp2);
             x.pop_front();
         }
+        if (x.front().type == Token::TokenType::END)
+            break;
         counter++;
     }
     if (counter < 1)
