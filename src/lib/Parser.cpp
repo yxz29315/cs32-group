@@ -63,7 +63,7 @@ AstNode *Parser::SExpress(deque<Token> &x)
     {
         root.reset(assign(x));
     }
-    else if (x.front().type == Token::TokenType::OPERATOR && x.front().text != "(" && x.front().text != ")")
+    else if (x.front().type == Token::TokenType::OPERATOR)
     {
         root.reset(ops(x));
     }
@@ -76,6 +76,8 @@ AstNode *Parser::SExpress(deque<Token> &x)
     {
         root = unique_ptr<NodeKey>(new NodeKey(x.front().text));
     }
+    else
+        pError(x.front().line, x.front().column, x.front().text);
     if (x.front().type != Token::TokenType::RIGHTP)
     {
         pError(x.front().line, x.front().column, x.front().text);
