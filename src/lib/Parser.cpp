@@ -114,6 +114,8 @@ AstNode *Parser::assign(deque<Token> &x)
 
 AstNode *Parser::ops(deque<Token> &x)
 {
+    if (x.empty() || x.front().type == Token::TokenType::END)
+        return nullptr;
     unique_ptr<Op> root(new Op(x.front().text[0]));
     AstNode *temp = nullptr;
     Num *temp2 = nullptr;
