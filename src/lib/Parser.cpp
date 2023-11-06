@@ -9,6 +9,11 @@ Parser::Parser()
 
 Parser::~Parser()
 {
+    delHeads();
+}
+
+void Parser::delHeads()
+{
     while (heads.size() != 0)
     {
         AstNode *temp = pop();
@@ -172,12 +177,14 @@ AstNode *Parser::pop()
 void Parser::pError(int l, int c, string text)
 {
     throw runtime_error("Unexpected token at line " + to_string(l) + " column " + to_string(c) + ": " + text);
+    delHeads();
     exit(2);
 }
 
 void Parser::iError(string text)
 {
     throw runtime_error("unknown identifier " + text);
+    delHeads();
     exit(3);
 }
 

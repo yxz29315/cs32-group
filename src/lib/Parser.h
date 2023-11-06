@@ -19,6 +19,7 @@ public:
     AstNode* pop();
     bool isEmpty();
     deque<AstNode*> getHeads();
+    void delHeads();
 
 private: 
     deque<AstNode*> heads;
