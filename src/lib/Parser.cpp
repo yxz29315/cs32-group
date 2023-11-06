@@ -47,6 +47,10 @@ void Parser::makeTree(deque<Token> &x)
         root = id;
         x.pop_front();
     }
+    else if (x.front().text == "=")
+    {
+        root = assign(x);
+    }
     else if (x.front().type == Token::TokenType::OPERATOR)
     {
         root = ops(x);
