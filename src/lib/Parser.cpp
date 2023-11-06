@@ -72,8 +72,7 @@ AstNode *Parser::SExpress(deque<Token> &x)
     */
     if (x.front().text != ")")
     {
-        cout << "s express";
-        //pError(x.front().line, x.front().column, x.front().text);
+        pError(x.front().line, x.front().column, x.front().text);
     }
     x.pop_front();
     return root.release();
