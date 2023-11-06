@@ -25,7 +25,7 @@ void Parser::makeTrees(deque<Token> &x)
 void Parser::makeTree(deque<Token> &x)
 {
     AstNode *root = nullptr;
-    if (x.front().text == "(")
+    if (x.front().type == Token::TokenType::LEFTP)
     {
         root = SExpress(x);
     }
@@ -71,7 +71,7 @@ AstNode *Parser::SExpress(deque<Token> &x)
         root = new NodeKey(x.front().text);
     }
     */
-    if (!(x.front().text == ")"))
+    if (x.front().type != Token::TokenType::RIGHTP)
     {
         pError(x.front().line, x.front().column, x.front().text);
     }

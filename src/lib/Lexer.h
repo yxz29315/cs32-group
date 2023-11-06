@@ -17,7 +17,9 @@ struct Token {
         OPERATOR,
         NUMBER,
         END,
-        IDENTIFIER
+        IDENTIFIER,
+        LEFTP,
+        RIGHTP
     } type;
 };
 

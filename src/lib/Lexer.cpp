@@ -24,11 +24,25 @@ void Lexer::readTokens(string inputStr) {
             if (currentChar == '(' || currentChar == ')' || currentChar == '+' ||
                 currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '=') {
                     Token x;
+                    if (currentChar == '(')
+                    {
+                        x.type = Token::TokenType::LEFTP;
+                        x.text = "(";
+                    }
+                    else if (currentChar == ')')
+                    {
+                        x.type = Token::TokenType::RIGHTP;
+                        x.text = ")";
+                    }
+                    else
+                    {
+                        x.type = Token::TokenType::OPERATOR;
+                        x.text = "";
+                        x.text += currentChar;
+                    }
                     x.line = nextLine;
                     x.column = nextCol;
-                    x.type = Token::TokenType::OPERATOR;
-                    x.text = "";
-                    x.text += currentChar;
+                    
                     tokens.push_back(x);
             }
             else if (isdigit(currentChar)) { // Checking for numbers
