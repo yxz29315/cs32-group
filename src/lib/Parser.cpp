@@ -117,6 +117,7 @@ AstNode *Parser::ops(deque<Token> &x)
     AstNode *temp = nullptr;
     Num *temp2 = nullptr;
     NodeKey* temp3 = nullptr;
+    Op* temp4 = nullptr;
     x.pop_front();
     int counter = 0; // count how many kids there are, throw error if 0
 
@@ -134,7 +135,13 @@ AstNode *Parser::ops(deque<Token> &x)
             root->addNode(temp3);
             x.pop_front();
         }
-        else
+        else if (x.front().type == Token::TokenType::OPERATOR)
+        {
+            temp4 = new Op(x.front().text[0]);
+            root->addNode(temp4);
+            x.pop_front();
+        }
+        else 
         {
             temp2 = new Num(stold(x.front().text));
             root->addNode(temp2);
